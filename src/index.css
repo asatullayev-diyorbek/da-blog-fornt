@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Dark mode (default) ── */
+  body {
+    margin: 0;
+    background-color: #0B0F19;
+    color: #e2e8f0;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* ── Light mode ── */
+  html.light body {
+    background-color: #F1F5F9;
+    color: #0f172a;
+  }
+
+  /* Scrollbar dark */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+  html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+
+  /* Selection */
+  ::selection { background: rgba(0, 229, 255, 0.2); }
+  html.light ::selection { background: rgba(2, 132, 199, 0.15); }
+}
