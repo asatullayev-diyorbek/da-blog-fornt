@@ -45,7 +45,7 @@ export default function LessonDetail() {
   if (loading) return <Loader />
   if (notFound) return <NotFound />
 
-  const courseLessons = course ? [...(course.lessons ?? [])].sort((a, b) => a.order - b.order) : []
+  const courseLessons = course ? [...(course.lessons ?? [])].filter((l) => l.video_id).sort((a, b) => a.order - b.order) : []
   const lessonIdx = courseLessons.findIndex((l) => l.slug === lessonSlug)
   const prevLesson = lessonIdx > 0 ? courseLessons[lessonIdx - 1] : null
   const nextLesson = lessonIdx < courseLessons.length - 1 ? courseLessons[lessonIdx + 1] : null

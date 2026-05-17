@@ -35,7 +35,7 @@ export default function CourseDetail() {
   if (loading) return <Loader />
   if (notFound || !course) return <NotFound />
 
-  const courseLessons = [...(course.lessons ?? [])].sort((a, b) => a.order - b.order)
+  const courseLessons = [...(course.lessons ?? [])].filter((l) => l.video_id).sort((a, b) => a.order - b.order)
   const freeLessons = courseLessons.filter((l) => l.is_free)
   const isFree = course.price === "Bepul"
 
