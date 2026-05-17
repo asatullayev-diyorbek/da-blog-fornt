@@ -3,7 +3,7 @@ const BASE = import.meta.env.VITE_API_URL?.replace("/api", "") || "http://127.0.
 export function mediaUrl(path) {
   if (!path) return null
   if (path.startsWith("http")) return path
-  return `/${BASE}${path.startsWith("/") ? "" : "/"}${path}`
+  return `${BASE}${path.startsWith("/") ? "" : "//"}${path}`
 }
 
 export function authorName(author) {
