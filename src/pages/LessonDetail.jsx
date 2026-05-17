@@ -45,7 +45,7 @@ export default function LessonDetail() {
   if (loading) return <Loader />
   if (notFound) return <NotFound />
 
-  const courseLessons = course ? [...(course.lessons ?? [])].filter((l) => l.video_id).sort((a, b) => a.order - b.order) : []
+  const courseLessons = course ? [...(course.lessons ?? [])].sort((a, b) => a.order - b.order) : []
   const lessonIdx = courseLessons.findIndex((l) => l.slug === lessonSlug)
   const prevLesson = lessonIdx > 0 ? courseLessons[lessonIdx - 1] : null
   const nextLesson = lessonIdx < courseLessons.length - 1 ? courseLessons[lessonIdx + 1] : null
@@ -121,26 +121,28 @@ export default function LessonDetail() {
             </div>
           )}
 
-          {canAccess && lesson ? (
-            <div className="mb-8">
-              <YoutubeEmbed videoId={lesson.video_id} />
-            </div>
-          ) : (
-            <div className={`mb-8 aspect-video rounded-xl border flex flex-col items-center justify-center gap-4 ${
-              dark ? "bg-[#131929] border-white/10" : "bg-slate-100 border-slate-200"
-            }`}>
-              <Lock size={40} className={dark ? "text-slate-600" : "text-slate-400"} />
-              <div className="text-center">
-                <p className={`font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>Bu lesson qulflangan</p>
-                <p className={`text-sm mt-1 ${dark ? "text-slate-500" : "text-slate-400"}`}>Ko'rish uchun kursga yoziling</p>
+          {lesson?.video_id && (
+            canAccess ? (
+              <div className="mb-8">
+                <YoutubeEmbed videoId={lesson.video_id} />
               </div>
-              <Link
-                to={`/courses/${courseSlug}`}
-                className="px-5 py-2.5 rounded-xl bg-[#00E5FF] text-[#0B0F19] font-semibold text-sm hover:bg-[#00E5FF]/90 transition-colors"
-              >
-                Kursga yozilish
-              </Link>
-            </div>
+            ) : (
+              <div className={`mb-8 aspect-video rounded-xl border flex flex-col items-center justify-center gap-4 ${
+                dark ? "bg-[#131929] border-white/10" : "bg-slate-100 border-slate-200"
+              }`}>
+                <Lock size={40} className={dark ? "text-slate-600" : "text-slate-400"} />
+                <div className="text-center">
+                  <p className={`font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>Bu lesson qulflangan</p>
+                  <p className={`text-sm mt-1 ${dark ? "text-slate-500" : "text-slate-400"}`}>Ko'rish uchun kursga yoziling</p>
+                </div>
+                <Link
+                  to={`/courses/${courseSlug}`}
+                  className="px-5 py-2.5 rounded-xl bg-[#00E5FF] text-[#0B0F19] font-semibold text-sm hover:bg-[#00E5FF]/90 transition-colors"
+                >
+                  Kursga yozilish
+                </Link>
+              </div>
+            )
           )}
 
           {canAccess && lesson?.content && (
