@@ -106,7 +106,7 @@ export default function Navbar() {
             <img
               src={dark ? "/logo-dark.png" : "/logo-light.png"}
               alt="DA Blog"
-              className="h-8 w-auto object-contain transition-opacity duration-200 group-hover:opacity-85"
+              className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-85"
             />
           </Link>
 
