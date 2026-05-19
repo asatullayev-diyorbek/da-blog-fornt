@@ -8,6 +8,15 @@ export default function CodeBlock({ children, className }) {
   const language = className?.replace("language-", "") || "text"
   const code = String(children).replace(/\n$/, "")
 
+  if (language === "svg") {
+    return (
+      <div
+        className="my-5 flex justify-center items-center"
+        dangerouslySetInnerHTML={{ __html: code }}
+      />
+    )
+  }
+
   const handleCopy = () => {
     navigator.clipboard.writeText(code)
     setCopied(true)
