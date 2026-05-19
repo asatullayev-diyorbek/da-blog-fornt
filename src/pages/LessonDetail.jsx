@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
-import { ArrowLeft, ArrowRight, Lock, BookOpen, ChevronRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, Lock, BookOpen, ChevronRight, ChevronDown } from "lucide-react"
 import { getCourse, getLesson } from "../api/courses"
 import { useThemeStore } from "../store/theme"
 import CodeBlock from "../components/CodeBlock"
@@ -21,6 +21,7 @@ export default function LessonDetail() {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [locked, setLocked] = useState(false)
+  const [mobileLessonsOpen, setMobileLessonsOpen] = useState(false)
 
   useEffect(() => {
     Promise.all([getCourse(courseSlug), getLesson(courseSlug, lessonSlug)])
@@ -153,18 +154,72 @@ export default function LessonDetail() {
             </div>
           )}
 
+          {/* Mobile lesson list */}
+          <div className="lg:hidden mt-6">
+            <button
+              onClick={() => setMobileLessonsOpen((v) => !v)}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
+                dark
+                  ? "bg-[#131929] border-white/10 text-slate-300 hover:text-white"
+                  : "bg-white border-slate-200 text-slate-700 hover:text-slate-900 shadow-sm"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <BookOpen size={14} className="text-[#00E5FF]" />
+                Kurs darslari ({courseLessons.length} ta)
+              </span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${mobileLessonsOpen ? "rotate-180 text-[#00E5FF]" : ""}`} />
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 ${mobileLessonsOpen ? "max-h-[60vh]" : "max-h-0"}`}>
+              <div className={`mt-2 border rounded-xl overflow-y-auto max-h-[60vh] divide-y ${
+                dark ? "bg-[#131929] border-white/10 divide-white/5" : "bg-white border-slate-200 divide-slate-100 shadow-sm"
+              }`}>
+                {courseLessons.map((l, idx) => {
+                  const isActive = l.slug === lessonSlug
+                  const accessible = l.is_free || isCourseAccessible
+                  return accessible ? (
+                    <Link
+                      key={l.id}
+                      to={`/courses/${courseSlug}/lessons/${l.slug}`}
+                      onClick={() => setMobileLessonsOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 text-xs transition-colors ${
+                        isActive
+                          ? "bg-[#00E5FF]/10 text-[#00E5FF]"
+                          : dark
+                            ? "text-slate-400 hover:text-white hover:bg-white/5"
+                            : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                    >
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-medium ${
+                        isActive ? "bg-[#00E5FF] text-[#0B0F19]" : dark ? "bg-white/5 text-slate-500" : "bg-slate-100 text-slate-400"
+                      }`}>{idx + 1}</span>
+                      <span className="line-clamp-2">{l.title}</span>
+                    </Link>
+                  ) : (
+                    <div key={l.id} className={`flex items-center gap-3 px-4 py-3 text-xs opacity-50 ${dark ? "text-slate-600" : "text-slate-400"}`}>
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${dark ? "bg-white/5" : "bg-slate-100"}`}>
+                        <Lock size={9} />
+                      </span>
+                      <span className="line-clamp-2">{l.title}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
           <div className={`flex items-center justify-between gap-4 mt-8 pt-8 border-t ${navBorder}`}>
             {prevLesson ? (
               <Link
                 to={`/courses/${courseSlug}/lessons/${prevLesson.slug}`}
-                className={`flex items-center gap-2 text-sm transition-colors group ${
+                className={`flex items-center gap-2 text-sm transition-colors group min-w-0 max-w-[45%] ${
                   dark ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-900"
                 }`}
               >
-                <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
-                <div>
+                <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform shrink-0" />
+                <div className="min-w-0">
                   <div className={`text-xs mb-0.5 ${dark ? "text-slate-600" : "text-slate-400"}`}>Oldingi</div>
-                  <div className="line-clamp-1">{prevLesson.title}</div>
+                  <div className="line-clamp-1 truncate">{prevLesson.title}</div>
                 </div>
               </Link>
             ) : <div />}
@@ -172,15 +227,15 @@ export default function LessonDetail() {
             {nextLesson ? (
               <Link
                 to={`/courses/${courseSlug}/lessons/${nextLesson.slug}`}
-                className={`flex items-center gap-2 text-sm transition-colors group text-right ${
+                className={`flex items-center gap-2 text-sm transition-colors group text-right min-w-0 max-w-[45%] ${
                   dark ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-900"
                 }`}
               >
-                <div>
+                <div className="min-w-0">
                   <div className={`text-xs mb-0.5 ${dark ? "text-slate-600" : "text-slate-400"}`}>Keyingi</div>
-                  <div className="line-clamp-1">{nextLesson.title}</div>
+                  <div className="line-clamp-1 truncate">{nextLesson.title}</div>
                 </div>
-                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform shrink-0" />
               </Link>
             ) : <div />}
           </div>

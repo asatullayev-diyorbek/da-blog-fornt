@@ -80,11 +80,11 @@ function ShareBar({ url, title, dark }) {
   }
 
   return (
-    <div className={`flex items-center gap-3 py-6 border-t border-b my-10 ${dark ? "border-white/[0.07]" : "border-slate-200"}`}>
+    <div className={`flex flex-wrap items-center gap-3 py-6 border-t border-b my-10 ${dark ? "border-white/[0.07]" : "border-slate-200"}`}>
       <span className={`text-xs font-bold uppercase tracking-widest shrink-0 ${dark ? "text-slate-500" : "text-slate-400"}`}>
         Ulashing
       </span>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {shares.map(({ label, icon, href, color }) =>
           href ? (
             <a
@@ -402,7 +402,7 @@ export default function BlogDetail() {
           ))}
         </div>
 
-        <h1 className={`text-3xl md:text-4xl font-bold leading-tight ${dark ? "text-white" : "text-slate-900"}`}>
+        <h1 className={`text-2xl md:text-4xl font-bold leading-tight ${dark ? "text-white" : "text-slate-900"}`}>
           {post.title}
         </h1>
       </div>

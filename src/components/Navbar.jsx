@@ -98,7 +98,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 flex flex-col items-center px-4 pt-3 gap-2">
 
       {/* ── Main pill nav ─────────────────────────────────── */}
-      <div className={`w-full max-w-[82%] rounded-2xl border backdrop-blur-2xl transition-colors duration-300 ${pill}`}>
+      <div className={`w-full max-w-[96%] md:max-w-[82%] rounded-2xl border backdrop-blur-2xl transition-colors duration-300 ${pill}`}>
         <div className="h-[60px] flex items-center justify-between gap-4 px-4 sm:px-5">
 
           {/* Logo */}
@@ -106,7 +106,7 @@ export default function Navbar() {
             <img
               src={dark ? "/logo-dark.png" : "/logo-light.png"}
               alt="DA Blog"
-              className="h-30 w-auto object-contain transition-opacity duration-200 group-hover:opacity-85"
+              className="h-8 w-auto object-contain transition-opacity duration-200 group-hover:opacity-85"
             />
           </Link>
 
@@ -265,7 +265,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Search panel ──────────────────────────────────── */}
-      <div className={`w-full max-w-[82%] rounded-2xl border backdrop-blur-2xl overflow-hidden
+      <div className={`w-full max-w-[96%] md:max-w-[82%] rounded-2xl border backdrop-blur-2xl overflow-hidden
         transition-all duration-300 ease-in-out ${pill} ${
         searchOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 border-transparent"
       }`}>
@@ -375,7 +375,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Mobile dropdown pill ───────────────────────────── */}
-      <div className={`md:hidden w-full max-w-[82%] rounded-2xl border backdrop-blur-2xl overflow-hidden
+      <div className={`md:hidden w-full max-w-[96%] md:max-w-[82%] rounded-2xl border backdrop-blur-2xl overflow-hidden
         transition-all duration-300 ease-in-out ${pill} ${
         menuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 border-transparent"
       }`}>

@@ -213,7 +213,7 @@ export default function Home() {
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
               bg-gradient-to-t from-[#00E5FF]/8 to-transparent" />
 
-            <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-10">
+            <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-7 md:p-10">
               <div className="flex items-center gap-2.5 mb-3">
                 <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-[#00E5FF] text-[#0B0F19]">
                   {featured.category?.name}
@@ -224,7 +224,7 @@ export default function Home() {
                   })}
                 </span>
               </div>
-              <h1 className="text-2xl md:text-[2.2rem] font-extrabold text-white leading-tight max-w-2xl mb-5
+              <h1 className="text-xl sm:text-2xl md:text-[2.2rem] font-extrabold text-white leading-tight max-w-2xl mb-5
                 transition-colors group-hover:text-[#00E5FF]">
                 {featured.title}
               </h1>
@@ -259,7 +259,7 @@ export default function Home() {
             <div className="md:col-span-3">
               <LargeCard post={popularBig} dark={dark} />
             </div>
-            <div className="md:col-span-2 flex flex-col gap-4">
+            <div className="md:col-span-2 flex flex-row md:flex-col gap-4">
               {popularSm.map((p) => (
                 <SmallCard key={p.id} post={p} dark={dark} />
               ))}

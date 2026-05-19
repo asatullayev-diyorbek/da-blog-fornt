@@ -98,7 +98,7 @@ export default function Courses() {
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex items-center gap-1.5 overflow-x-auto flex-nowrap pb-0.5 -mx-1 px-1">
           <button onClick={() => setActiveCategory(null)} className={chip(activeCategory === null)}>
             Barchasi
           </button>

@@ -76,7 +76,7 @@ export default function CourseDetail() {
         <ArrowLeft size={16} /> Kurslarga qaytish
       </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-2">
           <div className={`rounded-2xl overflow-hidden aspect-video mb-8 border ${
             dark ? "border-white/10" : "border-slate-200"
@@ -98,26 +98,26 @@ export default function CourseDetail() {
             }`}>{course.price}</span>
           </div>
 
-          <h1 className={`text-3xl font-bold mb-4 ${dark ? "text-white" : "text-slate-900"}`}>{course.title}</h1>
+          <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${dark ? "text-white" : "text-slate-900"}`}>{course.title}</h1>
           <MarkdownProse className={`text-lg mb-6 ${dark ? "text-slate-400" : "text-slate-600"}`}>
             {course.short_description}
           </MarkdownProse>
 
-          <div className={`grid grid-cols-3 gap-4 p-5 rounded-xl border mb-8 ${statsBg}`}>
+          <div className={`grid grid-cols-3 gap-2 sm:gap-4 p-4 sm:p-5 rounded-xl border mb-8 ${statsBg}`}>
             <div className="text-center">
-              <div className={`text-2xl font-bold mb-1 ${dark ? "text-white" : "text-slate-900"}`}>{course.lessons_count}</div>
+              <div className={`text-xl sm:text-2xl font-bold mb-1 ${dark ? "text-white" : "text-slate-900"}`}>{course.lessons_count}</div>
               <div className={`text-xs flex items-center justify-center gap-1 ${dark ? "text-slate-500" : "text-slate-400"}`}>
                 <BookOpen size={11} /> Lesson
               </div>
             </div>
             <div className={`text-center border-x ${statsBorder}`}>
-              <div className={`text-2xl font-bold mb-1 ${dark ? "text-white" : "text-slate-900"}`}>{course.duration}</div>
+              <div className={`text-xl sm:text-2xl font-bold mb-1 ${dark ? "text-white" : "text-slate-900"}`}>{course.duration}</div>
               <div className={`text-xs flex items-center justify-center gap-1 ${dark ? "text-slate-500" : "text-slate-400"}`}>
                 <Clock size={11} /> Davomiyligi
               </div>
             </div>
             <div className="text-center">
-              <div className={`text-2xl font-bold mb-1 ${dark ? "text-white" : "text-slate-900"}`}>{course.students?.toLocaleString()}</div>
+              <div className={`text-xl sm:text-2xl font-bold mb-1 ${dark ? "text-white" : "text-slate-900"}`}>{course.students?.toLocaleString()}</div>
               <div className={`text-xs flex items-center justify-center gap-1 ${dark ? "text-slate-500" : "text-slate-400"}`}>
                 <Users size={11} /> O'quvchi
               </div>
