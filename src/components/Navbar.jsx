@@ -16,6 +16,8 @@ export default function Navbar() {
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false)
   const [courses, setCourses] = useState([])
 
+  const dropdownTimeout = useRef(null)
+
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState({ posts: [], courses: [] })
@@ -72,6 +74,14 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", onResize)
   }, [])
 
+  const openDropdown = () => {
+    clearTimeout(dropdownTimeout.current)
+    setDropdownOpen(true)
+  }
+  const closeDropdown = () => {
+    dropdownTimeout.current = setTimeout(() => setDropdownOpen(false), 150)
+  }
+
   const pill = dark
     ? "bg-[#0c1220]/96 border-white/10 shadow-2xl shadow-black/50"
     : "bg-white/96 border-slate-200 shadow-lg shadow-slate-900/8"
@@ -119,8 +129,8 @@ export default function Navbar() {
             {/* Kurslar + dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
+              onMouseEnter={openDropdown}
+              onMouseLeave={closeDropdown}
             >
               <NavLink
                 to="/courses"
@@ -135,7 +145,10 @@ export default function Navbar() {
               </NavLink>
 
               {/* Dropdown panel */}
-              <div className={`absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[520px]
+              <div
+                onMouseEnter={openDropdown}
+                onMouseLeave={closeDropdown}
+                className={`absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[520px]
                 rounded-2xl border p-5 transition-all duration-200 origin-top ${
                 dropdownOpen
                   ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom"
 import NotFound from "./NotFound"
 import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet-async"
-import { ArrowLeft, BookOpen, Clock, Users, Lock, Play } from "lucide-react"
+import { ArrowLeft, BookOpen, Clock, Users, Lock, Play, GraduationCap } from "lucide-react"
 import { getCourse } from "../api/courses"
 import { mediaUrl, authorName } from "../utils/media"
 import { useThemeStore } from "../store/theme"
@@ -78,10 +78,34 @@ export default function CourseDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-2">
-          <div className={`rounded-2xl overflow-hidden aspect-video mb-8 border ${
+          <div className={`relative rounded-2xl overflow-hidden aspect-video mb-8 border ${
             dark ? "border-white/10" : "border-slate-200"
           }`}>
             <img src={mediaUrl(course.cover)} alt={course.title} className="w-full h-full object-cover" />
+            {course.instructor && (
+              <>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 flex items-center gap-3">
+                  {mediaUrl(course.instructor.avatar) ? (
+                    <img
+                      src={mediaUrl(course.instructor.avatar)}
+                      alt={authorName(course.instructor)}
+                      className="w-11 h-11 rounded-full ring-2 ring-white shadow-md shrink-0"
+                    />
+                  ) : (
+                    <div className="w-11 h-11 rounded-full ring-2 ring-white shadow-md bg-slate-600 flex items-center justify-center shrink-0">
+                      <GraduationCap size={18} className="text-white" />
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-[10px] text-white/60 font-medium leading-tight mb-0.5">O'qituvchi</p>
+                    <p className="text-sm font-semibold text-white drop-shadow leading-tight">
+                      {authorName(course.instructor)}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4">

@@ -59,12 +59,15 @@ function LargeCard({ post, dark }) {
           alt={post.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute bottom-3 left-4">
+        <div className="absolute bottom-3 left-4 flex items-center gap-2">
           <img
             src={mediaUrl(post.author?.avatar)}
             alt={authorName(post.author)}
-            className="w-10 h-10 rounded-full ring-[2.5px] ring-white shadow-md"
+            className="w-8 h-8 rounded-full ring-2 ring-white shadow-md shrink-0"
           />
+          <span className="text-[11px] font-semibold text-white drop-shadow-md truncate max-w-[120px]">
+            {authorName(post.author)}
+          </span>
         </div>
         <div className="absolute bottom-3 right-4">
           <span className="text-[11px] font-semibold px-3 py-1.5 rounded-full
@@ -119,8 +122,15 @@ function SmallCard({ post, dark }) {
           alt={post.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute bottom-2.5 left-3">
-          <img src={mediaUrl(post.author?.avatar)} alt="" className="w-7 h-7 rounded-full ring-2 ring-white shadow-md" />
+        <div className="absolute bottom-2.5 left-3 flex items-center gap-1.5">
+          <img
+            src={mediaUrl(post.author?.avatar)}
+            alt={authorName(post.author)}
+            className="w-7 h-7 rounded-full ring-2 ring-white shadow-md shrink-0"
+          />
+          <span className="text-[10px] font-semibold text-white drop-shadow-md truncate max-w-[90px]">
+            {authorName(post.author)}
+          </span>
         </div>
         <div className="absolute bottom-2.5 right-3">
           <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/95 text-slate-700 shadow-sm backdrop-blur-sm">

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { BookOpen, Clock, Users } from "lucide-react"
 import { useThemeStore } from "../store/theme"
-import { mediaUrl } from "../utils/media"
+import { mediaUrl, authorName } from "../utils/media"
 
 export default function CourseCard({ course }) {
   const { theme } = useThemeStore()
@@ -61,6 +61,28 @@ export default function CourseCard({ course }) {
             {course.category.name}
           </span>
         </div>
+
+        {/* Instructor */}
+        {course.instructor && (
+          <div className="absolute bottom-3 left-3 flex items-center gap-2">
+            {mediaUrl(course.instructor.avatar) ? (
+              <img
+                src={mediaUrl(course.instructor.avatar)}
+                alt={authorName(course.instructor)}
+                className="w-8 h-8 rounded-full ring-2 ring-white shadow-md shrink-0"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full ring-2 ring-white shadow-md bg-slate-600 flex items-center justify-center shrink-0">
+                <span className="text-white text-xs font-bold">
+                  {authorName(course.instructor)?.[0] ?? "?"}
+                </span>
+              </div>
+            )}
+            <span className="text-[11px] font-semibold text-white drop-shadow-md truncate max-w-[110px]">
+              {authorName(course.instructor)}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Body */}

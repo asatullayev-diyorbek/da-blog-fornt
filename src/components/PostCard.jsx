@@ -30,13 +30,16 @@ export default function PostCard({ post }) {
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {/* Author avatar — bottom-left of image */}
-        <div className="absolute bottom-3 left-4">
+        {/* Author avatar + name — bottom-left of image */}
+        <div className="absolute bottom-3 left-4 flex items-center gap-2">
           <img
             src={mediaUrl(post.author?.avatar)}
             alt={authorName(post.author)}
-            className="w-10 h-10 rounded-full ring-[2.5px] ring-white shadow-md"
+            className="w-8 h-8 rounded-full ring-2 ring-white shadow-md shrink-0"
           />
+          <span className="text-[11px] font-semibold text-white drop-shadow-md truncate max-w-[110px]">
+            {authorName(post.author)}
+          </span>
         </div>
 
         {/* Read time badge — bottom-right of image */}
