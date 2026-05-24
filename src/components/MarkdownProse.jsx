@@ -22,11 +22,11 @@ export default function MarkdownProse({ children, className = "" }) {
     ),
     li: ({ children }) => <li className="ml-2">{children}</li>,
     a: ({ href, children }) => (
-      <a href={href} className="text-[#00E5FF] hover:underline" target="_blank" rel="noreferrer">{children}</a>
+      <a href={href} className="text-blue-500 hover:underline" target="_blank" rel="noreferrer">{children}</a>
     ),
     code: ({ children }) => (
       <code className={`px-1.5 py-0.5 rounded text-xs font-mono ${
-        dark ? "bg-white/10 text-[#00E5FF]" : "bg-slate-100 text-sky-700"
+        dark ? "bg-white/10 text-blue-400" : "bg-slate-100 text-blue-700"
       }`}>{children}</code>
     ),
   }

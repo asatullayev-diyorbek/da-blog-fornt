@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet-async"
-import { GraduationCap, X } from "lucide-react"
+import { GraduationCap, X, SlidersHorizontal } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 import { getCourses } from "../api/courses"
 import { getCategories } from "../api/blog"
 import CourseCard from "../components/CourseCard"
 import Loader from "../components/Loader"
 import { useThemeStore } from "../store/theme"
 
-const levels = ["Boshlang'ich", "O'rta", "Yuqori"]
-const prices = ["Bepul", "Pullik"]
+const LEVELS = ["Boshlang'ich", "O'rta", "Yuqori"]
+const PRICES = ["Bepul", "Pullik"]
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+}
+const stagger = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.08 } },
+}
 
 export default function Courses() {
   const { theme } = useThemeStore()
@@ -27,27 +37,14 @@ export default function Courses() {
 
   const hasFilter = activeCategory || activeLevel || activePrice
 
-  const chip = (active) =>
-    `px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 whitespace-nowrap ${
-      active
-        ? "bg-[#00E5FF] text-[#0B0F19]"
-        : dark
-          ? "bg-white/[0.05] text-slate-400 hover:text-white border border-white/[0.08] hover:border-white/20"
-          : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-300"
-    }`
-
-  const divider = (
-    <span className={`w-px h-5 shrink-0 self-center ${dark ? "bg-white/10" : "bg-slate-200"}`} />
-  )
-
   const fetchCourses = (cat, lvl, price, pg, append = false) => {
     if (append) setLoadingMore(true)
     else setLoading(true)
 
     const params = { page: pg }
-    if (cat) params.category = cat
-    if (lvl) params.level = lvl
-    if (price) params.price = price
+    if (cat)   params.category = cat
+    if (lvl)   params.level    = lvl
+    if (price) params.price    = price
 
     getCourses(params)
       .then((res) => {
@@ -73,114 +70,216 @@ export default function Courses() {
     fetchCourses(activeCategory, activeLevel, activePrice, next, true)
   }
 
-  if (loading) return <Loader />
+  const clearAll = () => { setActiveCategory(null); setActiveLevel(null); setActivePrice(null) }
+
+  const Chip = ({ label, active, onClick }) => (
+    <button
+      onClick={onClick}
+      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap border ${
+        active
+          ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/25"
+          : dark
+            ? "bg-white/4 text-slate-400 border-white/8 hover:text-white hover:border-white/20"
+            : "bg-white text-slate-500 border-slate-200 hover:text-slate-900 hover:border-slate-300"
+      }`}
+    >
+      {label}
+    </button>
+  )
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <Helmet><title>Kurslar — DA Blog</title></Helmet>
+    <>
+      <Helmet><title>Kurslar — ChaqimchiAI Academy</title></Helmet>
 
-      {/* ── Title + filter row ── */}
-      <div className={`flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b ${
-        dark ? "border-white/[0.07]" : "border-slate-200"
+      {/* ── Hero ── */}
+      <section className={`relative overflow-hidden border-b ${
+        dark ? "bg-[#080d16] border-white/[0.07]" : "bg-white border-slate-200"
       }`}>
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="courses-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.5" fill={dark ? "rgba(148,163,184,0.08)" : "rgba(148,163,184,0.25)"} />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#courses-dots)" />
+        </svg>
 
-        <div className="flex items-center gap-3">
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-            dark ? "bg-[#00E5FF]/10" : "bg-sky-50"
-          }`}>
-            <GraduationCap size={18} className="text-[#00E5FF]" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+
+            {/* Left */}
+            <div>
+              <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold mb-4 ${
+                dark ? "bg-blue-600/10 border-blue-500/25 text-blue-400" : "bg-blue-50 border-blue-200 text-blue-600"
+              }`}>
+                <GraduationCap size={11} />
+                Kurslar
+              </div>
+              <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                dark ? "text-white" : "text-slate-900"
+              }`}>
+                Barcha{" "}
+                <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                  kurslar
+                </span>
+              </h1>
+            </div>
+
+            {/* Right: count */}
+            <div className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border ${
+              dark ? "border-white/8 bg-white/3" : "border-slate-200 bg-white shadow-sm"
+            }`}>
+              <GraduationCap size={15} className="text-blue-600" />
+              <span className={`text-sm font-semibold ${dark ? "text-slate-300" : "text-slate-700"}`}>
+                {courses.length} ta kurs
+              </span>
+            </div>
           </div>
-          <h1 className={`text-2xl font-extrabold ${dark ? "text-slate-100" : "text-slate-900"}`}>
-            Barcha kurslar
-          </h1>
-          <span className={`text-sm ${dark ? "text-slate-600" : "text-slate-400"}`}>
-            · {courses.length} ta
-          </span>
-        </div>
+        </motion.div>
+      </section>
 
-        <div className="flex items-center gap-1.5 overflow-x-auto flex-nowrap pb-0.5 -mx-1 px-1">
-          <button onClick={() => setActiveCategory(null)} className={chip(activeCategory === null)}>
-            Barchasi
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id === activeCategory ? null : cat.id)}
-              className={chip(activeCategory === cat.id)}
-            >
-              {cat.name}
-            </button>
-          ))}
+      {/* ── Filters + Grid ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
 
-          {divider}
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className={`flex flex-wrap gap-4 items-start p-5 rounded-2xl border mb-8 ${
+            dark ? "border-white/8 bg-white/3" : "border-slate-200 bg-white shadow-sm"
+          }`}
+        >
+          <SlidersHorizontal size={15} className={`shrink-0 mt-1.5 ${dark ? "text-slate-500" : "text-slate-400"}`} />
 
-          {levels.map((lvl) => (
-            <button
-              key={lvl}
-              onClick={() => setActiveLevel(lvl === activeLevel ? null : lvl)}
-              className={chip(activeLevel === lvl)}
-            >
-              {lvl}
-            </button>
-          ))}
+          <div className="flex flex-wrap gap-4 flex-1">
+            {/* Category */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
+                Kategoriya
+              </span>
+              <Chip label="Barchasi" active={!activeCategory} onClick={() => setActiveCategory(null)} />
+              {categories.map((cat) => (
+                <Chip
+                  key={cat.id}
+                  label={cat.name}
+                  active={activeCategory === cat.id}
+                  onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
+                />
+              ))}
+            </div>
 
-          {divider}
+            <div className={`w-px self-stretch ${dark ? "bg-white/8" : "bg-slate-200"}`} />
 
-          {prices.map((p) => (
-            <button
-              key={p}
-              onClick={() => setActivePrice(p === activePrice ? null : p)}
-              className={chip(activePrice === p)}
-            >
-              {p}
-            </button>
-          ))}
+            {/* Level */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
+                Daraja
+              </span>
+              {LEVELS.map((lvl) => (
+                <Chip
+                  key={lvl}
+                  label={lvl}
+                  active={activeLevel === lvl}
+                  onClick={() => setActiveLevel(activeLevel === lvl ? null : lvl)}
+                />
+              ))}
+            </div>
+
+            <div className={`w-px self-stretch ${dark ? "bg-white/8" : "bg-slate-200"}`} />
+
+            {/* Price */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
+                Narx
+              </span>
+              {PRICES.map((p) => (
+                <Chip
+                  key={p}
+                  label={p}
+                  active={activePrice === p}
+                  onClick={() => setActivePrice(activePrice === p ? null : p)}
+                />
+              ))}
+            </div>
+          </div>
 
           {hasFilter && (
-            <>
-              {divider}
-              <button
-                onClick={() => { setActiveCategory(null); setActiveLevel(null); setActivePrice(null) }}
-                className={`flex items-center gap-1 text-[11px] transition-colors ${
-                  dark ? "text-slate-500 hover:text-[#00E5FF]" : "text-slate-400 hover:text-[#00E5FF]"
-                }`}
-              >
-                <X size={11} /> Tozalash
-              </button>
-            </>
+            <button
+              onClick={clearAll}
+              className={`flex items-center gap-1.5 text-xs font-medium transition-colors shrink-0 mt-1 ${
+                dark ? "text-slate-500 hover:text-red-400" : "text-slate-400 hover:text-red-500"
+              }`}
+            >
+              <X size={11} /> Tozalash
+            </button>
           )}
-        </div>
-      </div>
+        </motion.div>
 
-      {/* ── Course grid ── */}
-      {courses.length > 0 ? (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {courses.map((course) => <CourseCard key={course.id} course={course} />)}
-          </div>
+        {/* Grid */}
+        {loading ? (
+          <Loader />
+        ) : courses.length > 0 ? (
+          <>
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+            >
+              <AnimatePresence>
+                {courses.map((course) => (
+                  <motion.div key={course.id} variants={fadeUp} layout className="h-full">
+                    <CourseCard course={course} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
 
-          {hasNext && (
-            <div className="flex justify-center mt-10">
-              <button
-                onClick={loadMore}
-                disabled={loadingMore}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                  dark
-                    ? "bg-white/8 text-slate-300 hover:bg-white/12"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                } disabled:opacity-50`}
-              >
-                {loadingMore && <span className="w-4 h-4 rounded-full border-2 border-current border-t-transparent animate-spin" />}
-                {loadingMore ? "Yuklanmoqda..." : "Ko'proq ko'rish"}
-              </button>
+            {hasNext && (
+              <div className="flex justify-center mt-12">
+                <button
+                  onClick={loadMore}
+                  disabled={loadingMore}
+                  className={`inline-flex items-center gap-2.5 px-7 py-3 rounded-xl border text-sm font-semibold transition-all disabled:opacity-50 hover:-translate-y-0.5 ${
+                    dark
+                      ? "border-white/10 bg-white/4 text-slate-300 hover:border-blue-500/40 hover:text-white"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-blue-300 shadow-sm"
+                  }`}
+                >
+                  {loadingMore && (
+                    <span className="w-4 h-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+                  )}
+                  {loadingMore ? "Yuklanmoqda..." : "Ko'proq ko'rish"}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-24 text-center"
+          >
+            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${
+              dark ? "bg-white/5" : "bg-slate-100"
+            }`}>
+              <GraduationCap size={28} className={dark ? "text-slate-600" : "text-slate-400"} />
             </div>
-          )}
-        </>
-      ) : (
-        <div className={`text-center py-20 ${dark ? "text-slate-600" : "text-slate-400"}`}>
-          Bu filtr bo'yicha kurs topilmadi.
-        </div>
-      )}
-    </div>
+            <p className={`font-semibold text-base mb-1 ${dark ? "text-slate-400" : "text-slate-600"}`}>
+              Kurs topilmadi
+            </p>
+            <p className={`text-sm ${dark ? "text-slate-600" : "text-slate-400"}`}>
+              Boshqa filtr bilan urinib ko'ring
+            </p>
+          </motion.div>
+        )}
+      </div>
+    </>
   )
 }

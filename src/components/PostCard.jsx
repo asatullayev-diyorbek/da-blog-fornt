@@ -14,7 +14,7 @@ export default function PostCard({ post }) {
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className={`group flex flex-col rounded-[20px] overflow-hidden transition-all duration-300
+      className={`group flex flex-col h-full rounded-[20px] overflow-hidden transition-all duration-300
         hover:-translate-y-1.5 ${
         dark
           ? "bg-[#0e1726] shadow-lg shadow-black/40 hover:shadow-2xl hover:shadow-black/50"
@@ -31,16 +31,33 @@ export default function PostCard({ post }) {
         />
 
         {/* Author avatar + name — bottom-left of image */}
-        <div className="absolute bottom-3 left-4 flex items-center gap-2">
-          <img
-            src={mediaUrl(post.author?.avatar)}
-            alt={authorName(post.author)}
-            className="w-8 h-8 rounded-full ring-2 ring-white shadow-md shrink-0"
-          />
-          <span className="text-[11px] font-semibold text-white drop-shadow-md truncate max-w-[110px]">
-            {authorName(post.author)}
-          </span>
-        </div>
+        {post.author && (
+          <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-xl px-2.5 py-1.5">
+            {mediaUrl(post.author.avatar) ? (
+              <img
+                src={mediaUrl(post.author.avatar)}
+                alt={authorName(post.author)}
+                className="w-7 h-7 rounded-full ring-1 ring-white/30 shrink-0"
+              />
+            ) : (
+              <div className="w-7 h-7 rounded-full ring-1 ring-white/30 bg-slate-600 flex items-center justify-center shrink-0">
+                <span className="text-white text-[10px] font-bold">
+                  {authorName(post.author)?.[0] ?? "?"}
+                </span>
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="text-[11px] font-bold text-white leading-tight truncate max-w-[90px]">
+                {post.author.last_name || post.author.username}
+              </p>
+              {post.author.first_name && (
+                <p className="text-[10px] text-white/65 leading-tight truncate max-w-[90px]">
+                  {post.author.first_name}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Read time badge — bottom-right of image */}
         <div className="absolute bottom-3 right-4">
@@ -63,7 +80,7 @@ export default function PostCard({ post }) {
 
         {/* Title */}
         <h3 className={`text-[15px] font-bold leading-snug line-clamp-2 transition-colors
-          group-hover:text-[#00E5FF] ${dark ? "text-slate-100" : "text-slate-900"}`}>
+          group-hover:text-blue-600 ${dark ? "text-slate-100" : "text-slate-900"}`}>
           {post.title}
         </h3>
 

@@ -17,7 +17,7 @@
 
   /* ── Light mode ── */
   html.light body {
-    background-color: #F1F5F9;
+    background-color: #F8FAFF;
     color: #0f172a;
   }
 
@@ -28,6 +28,6 @@
   html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
 
   /* Selection */
-  ::selection { background: rgba(0, 229, 255, 0.2); }
-  html.light ::selection { background: rgba(2, 132, 199, 0.15); }
+  ::selection { background: rgba(37, 99, 235, 0.25); }
+  html.light ::selection { background: rgba(37, 99, 235, 0.15); }
 }

@@ -55,7 +55,7 @@ export default function CourseCard({ course }) {
         <div className="absolute top-3 left-3">
           <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
             dark
-              ? "bg-[rgba(0,229,255,0.15)] text-[#00E5FF] ring-1 ring-[rgba(0,229,255,0.25)]"
+              ? "bg-blue-500/15 text-blue-400 ring-1 ring-blue-500/25"
               : "bg-white/90 text-sky-700 shadow-sm backdrop-blur-sm"
           }`}>
             {course.category.name}
@@ -64,23 +64,30 @@ export default function CourseCard({ course }) {
 
         {/* Instructor */}
         {course.instructor && (
-          <div className="absolute bottom-3 left-3 flex items-center gap-2">
+          <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-xl px-2.5 py-1.5">
             {mediaUrl(course.instructor.avatar) ? (
               <img
                 src={mediaUrl(course.instructor.avatar)}
                 alt={authorName(course.instructor)}
-                className="w-8 h-8 rounded-full ring-2 ring-white shadow-md shrink-0"
+                className="w-7 h-7 rounded-full ring-1 ring-white/30 shrink-0"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full ring-2 ring-white shadow-md bg-slate-600 flex items-center justify-center shrink-0">
-                <span className="text-white text-xs font-bold">
+              <div className="w-7 h-7 rounded-full ring-1 ring-white/30 bg-slate-600 flex items-center justify-center shrink-0">
+                <span className="text-white text-[10px] font-bold">
                   {authorName(course.instructor)?.[0] ?? "?"}
                 </span>
               </div>
             )}
-            <span className="text-[11px] font-semibold text-white drop-shadow-md truncate max-w-[110px]">
-              {authorName(course.instructor)}
-            </span>
+            <div className="min-w-0">
+              <p className="text-[11px] font-bold text-white leading-tight truncate max-w-[90px]">
+                {course.instructor.last_name || course.instructor.username}
+              </p>
+              {course.instructor.first_name && (
+                <p className="text-[10px] text-white/65 leading-tight truncate max-w-[90px]">
+                  {course.instructor.first_name}
+                </p>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -94,7 +101,7 @@ export default function CourseCard({ course }) {
           {course.level}
         </span>
 
-        <h3 className={`text-[15px] font-bold leading-snug line-clamp-2 transition-colors group-hover:text-[#00E5FF] ${
+        <h3 className={`text-[15px] font-bold leading-snug line-clamp-2 transition-colors group-hover:text-blue-500 ${
           dark ? "text-slate-100" : "text-slate-900"
         }`}>
           {course.title}
