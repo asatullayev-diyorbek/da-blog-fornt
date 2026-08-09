@@ -87,15 +87,15 @@
 .leaderboard-user-rank, .leaderboard-login { position: relative; margin: 0 auto 12px; max-width: 1020px; color: #9aafc6; font-size: .8rem; }
 .leaderboard-user-rank strong { color: #fff; }
 .leaderboard-table-shell { position: relative; max-width: 1020px; margin: 0 auto; padding: 5px 0 10px; border-radius: 16px; overflow: hidden; background: rgba(8,22,43,.72); box-shadow: 0 12px 30px rgba(0,10,25,.28); }
-.leaderboard-table-head, .leaderboard-row { display: grid; grid-template-columns: 94px minmax(0, 1fr) 150px 130px; align-items: center; column-gap: 14px; }
+.leaderboard-table-head, .leaderboard-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) 125px 120px; align-items: center; column-gap: 12px; }
 .leaderboard-table-head { min-height: 38px; padding: 0 18px; color: #8ca9c8; background: rgba(27,63,106,.58); font-size: .57rem; font-weight: 900; letter-spacing: .1em; }
 .leaderboard-row { position: relative; min-height: 62px; margin: 7px 12px 0; padding: 0 18px; border: 1px solid rgba(133,173,215,.1); border-radius: 12px; background: linear-gradient(90deg, rgba(27,70,119,.86), rgba(20,48,82,.86)); box-shadow: 0 4px 0 rgba(2,12,27,.42); }
 .leaderboard-row::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 20%; background: linear-gradient(120deg, transparent, rgba(125,190,255,.1)); pointer-events: none; }
 .leaderboard-row-first { background: linear-gradient(90deg, rgba(38,91,148,.92), rgba(24,57,96,.92)); border-color: rgba(155,198,237,.2); }
 .leaderboard-row-me { outline: 2px solid rgba(139,214,255,.55); outline-offset: -2px; }
-.leaderboard-rank { display: flex; align-items: center; gap: 5px; color: #e9f6ff; font-size: .9rem; font-weight: 900; }
+.leaderboard-rank { display: flex; align-items: center; justify-self: start; gap: 5px; color: #e9f6ff; font-size: .9rem; font-weight: 900; }
 .leaderboard-rank svg { color: #ffd35d; }
-.leaderboard-player { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.leaderboard-player { display: flex; align-items: center; justify-self: start; width: 100%; min-width: 0; gap: 12px; }
 .leaderboard-player p { margin: 0; overflow: hidden; color: #fff; text-overflow: ellipsis; white-space: nowrap; font-size: .9rem; font-weight: 850; }
 .leaderboard-player span { display: block; overflow: hidden; color: #89a6c4; text-overflow: ellipsis; white-space: nowrap; font-size: .68rem; }
 .leaderboard-points { color: #fff; font-size: 1.05rem; font-weight: 900; }
