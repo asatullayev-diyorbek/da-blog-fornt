@@ -5,6 +5,32 @@ import { answerArena, getArenaGame } from "../api/quizzes"
 import { useAuthStore } from "../store/auth"
 import Loader from "../components/Loader"
 
+function shuffled(items) {
+  const result = [...items]
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1))
+    ;[result[index], result[randomIndex]] = [result[randomIndex], result[index]]
+  }
+  return result
+}
+
+function randomizeArenaQuestion(code, question) {
+  if (!question?.options?.length) return question
+  const storageKey = `arena-option-order:${code}:${question.id}`
+  let optionIds = null
+  try { optionIds = JSON.parse(localStorage.getItem(storageKey) || "null") } catch { /* generate a fresh order below */ }
+  if (!Array.isArray(optionIds) || optionIds.length !== question.options.length) {
+    optionIds = shuffled(question.options.map((option) => option.id))
+    localStorage.setItem(storageKey, JSON.stringify(optionIds))
+  }
+  const optionsById = new Map(question.options.map((option) => [option.id, option]))
+  return { ...question, options: optionIds.map((id) => optionsById.get(id)).filter(Boolean) }
+}
+
+function withRandomizedQuestion(code, payload) {
+  return payload?.question ? { ...payload, question: randomizeArenaQuestion(code, payload.question) } : payload
+}
+
 function FighterAvatar({ participant }) {
   return <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-violet-400/25 bg-violet-500/15 text-xs font-black text-violet-200">{participant.avatar ? <img src={participant.avatar} alt={participant.username} className="h-full w-full object-cover" /> : participant.username.charAt(0).toUpperCase()}</div>
 }
@@ -21,7 +47,7 @@ export default function ArenaPlay() {
   useEffect(() => {
     if (!user) return undefined
     let active = true
-    const refresh = () => { if (revealUntil.current) return; getArenaGame(code).then((response) => { if (active) setState(response.data) }).catch((requestError) => { if (active) setError(requestError.response?.data?.detail || "Arena o‘yinini yuklashda xatolik yuz berdi.") }).finally(() => { if (active) setLoading(false) }) }
+    const refresh = () => { if (revealUntil.current) return; getArenaGame(code).then((response) => { if (active) setState(withRandomizedQuestion(code, response.data)) }).catch((requestError) => { if (active) setError(requestError.response?.data?.detail || "Arena o‘yinini yuklashda xatolik yuz berdi.") }).finally(() => { if (active) setLoading(false) }) }
     refresh()
     const timer = setInterval(refresh, 1000)
     return () => { active = false; clearInterval(timer) }
@@ -30,7 +56,7 @@ export default function ArenaPlay() {
   async function selectAnswer(optionId) {
     if (!state?.question || state.answered || answering) return
     setAnswering(true)
-    try { const response = await answerArena(code, state.question.id, optionId); setState(response.data); revealUntil.current = true; setTimeout(() => { revealUntil.current = false; getArenaGame(code).then((next) => setState(next.data)).catch(() => {}) }, 2000); setError("") } catch (requestError) { setError(requestError.response?.data?.detail || "Javobni yuborishda xatolik yuz berdi.") } finally { setAnswering(false) }
+    try { const response = await answerArena(code, state.question.id, optionId); setState(withRandomizedQuestion(code, response.data)); revealUntil.current = true; setTimeout(() => { revealUntil.current = false; getArenaGame(code).then((next) => setState(withRandomizedQuestion(code, next.data))).catch(() => {}) }, 2000); setError("") } catch (requestError) { setError(requestError.response?.data?.detail || "Javobni yuborishda xatolik yuz berdi.") } finally { setAnswering(false) }
   }
 
   if (!user) return <div className="arena-shell min-h-[calc(100vh-5rem)] px-4 py-20 text-center"><Swords className="mx-auto text-violet-400" size={42} /><h1 className="mt-5 text-2xl font-black text-white">Jang maydoniga kirish uchun login qiling</h1><Link to="/login" className="mt-6 inline-flex rounded-xl bg-violet-600 px-5 py-3 text-sm font-bold text-white">Login</Link></div>
