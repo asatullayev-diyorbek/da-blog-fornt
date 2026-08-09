@@ -21,6 +21,45 @@
     animation: leaderboardFireRing 3s ease-in-out infinite;
 }
 
+@keyframes arenaPulse {
+  0%, 100% { opacity: .55; transform: scale(.96); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+@keyframes arenaScan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes arenaFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.arena-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% -20%, rgba(124, 58, 237, .28), transparent 42%), #080b14;
+}
+
+.arena-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .16;
+  background-image: linear-gradient(rgba(129, 140, 248, .25) 1px, transparent 1px), linear-gradient(90deg, rgba(129, 140, 248, .25) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+}
+
+.arena-glow { animation: arenaPulse 2.6s ease-in-out infinite; }
+.arena-float { animation: arenaFloat 3s ease-in-out infinite; }
+.arena-scanline { animation: arenaScan 5s linear infinite; }
+.arena-panel { box-shadow: 0 0 0 1px rgba(129, 140, 248, .12), 0 18px 60px rgba(0, 0, 0, .3); }
+
 @layer base {
   html {
     font-family: "Inter", system-ui, sans-serif;
