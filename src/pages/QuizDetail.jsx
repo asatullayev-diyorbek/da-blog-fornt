@@ -15,6 +15,15 @@ import { useThemeStore } from "../store/theme";
 import { useAuthStore } from "../store/auth";
 import Loader from "../components/Loader";
 
+function shuffled(items) {
+  const result = [...items];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
+  }
+  return result;
+}
+
 export default function QuizDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -54,11 +63,20 @@ export default function QuizDetail() {
           const savedQuestions = savedQuestionIds
             .map((id) => questionsById.get(id))
             .filter(Boolean);
-          const savedQuestionSet = new Set(savedQuestionIds);
-          quizData.questions = [
-            ...savedQuestions,
-            ...quizData.questions.filter((item) => !savedQuestionSet.has(item.id)),
-          ];
+        const savedQuestionSet = new Set(savedQuestionIds);
+        quizData.questions = [
+          ...savedQuestions,
+          ...quizData.questions.filter((item) => !savedQuestionSet.has(item.id)),
+        ];
+        const savedOptionOrders = savedProgress?.optionOrder || {};
+        quizData.questions = quizData.questions.map((item) => {
+          const optionIds = savedOptionOrders[item.id] || shuffled(item.options.map((option) => option.id));
+          const optionsById = new Map(item.options.map((option) => [option.id, option]));
+          return {
+            ...item,
+            options: optionIds.map((id) => optionsById.get(id)).filter(Boolean),
+          };
+        });
         }
 
         setQuiz(quizData);
@@ -86,6 +104,7 @@ export default function QuizDetail() {
         current,
         secondsLeft,
         questionOrder: quiz.questions.map((item) => item.id),
+        optionOrder: Object.fromEntries(quiz.questions.map((item) => [item.id, item.options.map((option) => option.id)])),
       }),
     );
   }, [answers, attemptId, current, hydrated, progressKey, quiz, secondsLeft]);
