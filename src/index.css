@@ -26,11 +26,9 @@
   min-height: calc(100vh - 150px);
   overflow: hidden;
   color: #fff;
-  background: #101b2d;
-  background-image: linear-gradient(135deg, rgba(255,255,255,.018) 25%, transparent 25%), linear-gradient(315deg, rgba(4,18,42,.52) 25%, transparent 25%), linear-gradient(45deg, transparent 65%, rgba(55,112,180,.08) 65%);
-  background-size: 290px 290px, 250px 250px, 330px 330px;
+  background: transparent;
 }
-.leaderboard-page::before { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(5,16,34,.58), transparent 45%, rgba(3,12,28,.48)); pointer-events: none; }
+.leaderboard-page::before { display: none; }
 .leaderboard-orb { position: absolute; border-radius: 999px; filter: blur(45px); opacity: .3; pointer-events: none; }
 .leaderboard-orb-one { width: 260px; height: 260px; top: -90px; left: 6%; background: #2563a6; opacity: .18; }
 .leaderboard-orb-two { width: 220px; height: 220px; right: 4%; bottom: 8%; background: #1d3470; opacity: .16; }
@@ -66,6 +64,13 @@
 .leaderboard-points small { color: #89a9c9; font-size: .65rem; }
 .leaderboard-status { display: flex; align-items: center; gap: 5px; color: #9eb8d1; font-size: .6rem; font-weight: 900; letter-spacing: .08em; }
 .leaderboard-status svg { color: #ffd45e; }
+.leaderboard-movement-up { color: #70d5a0; }
+.leaderboard-movement-up svg { color: #70d5a0; }
+.leaderboard-movement-down { color: #e79898; }
+.leaderboard-movement-down svg { color: #e79898; }
+.leaderboard-movement-same { color: #91a7bf; }
+.leaderboard-movement-same svg { color: #91a7bf; }
+.leaderboard-movement-new { color: #d8b669; }
 .leaderboard-login { margin-top: 18px; text-align: center; }
 .leaderboard-login a { color: #fff; font-weight: 800; text-decoration: underline; }
 @media (max-width: 640px) {
