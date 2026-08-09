@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
 import {
-  ArrowLeft, ArrowRight, Lock, BookOpen,
+  ArrowLeft, ArrowRight, Lock, BookOpen, ClipboardCheck,
   ChevronRight, ChevronDown, Clock, Play,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -291,6 +291,27 @@ Name one of the variables so that it starts with _ and leave a comment about it.
                   {lesson.content}
                 </ReactMarkdown>
               </motion.div>
+            )}
+
+            {canAccess && lesson?.quizzes?.length > 0 && (
+              <div className={`mt-6 rounded-2xl border p-5 ${dark ? "bg-blue-600/10 border-blue-500/20" : "bg-blue-50 border-blue-100"}`}>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600/15 text-blue-500 flex items-center justify-center shrink-0">
+                    <ClipboardCheck size={18} />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className={`font-bold ${dark ? "text-white" : "text-slate-900"}`}>Bilimingizni sinang</h2>
+                    <p className={`text-sm mt-1 mb-3 ${dark ? "text-slate-400" : "text-slate-600"}`}>{lesson.quizzes.length} ta test mavjud.</p>
+                    <div className="flex flex-wrap gap-2">
+                      {lesson.quizzes.map((quiz) => (
+                        <Link key={quiz.id} to={`/tests/${quiz.slug}`} className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">
+                          {quiz.title} <ArrowRight size={13} />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* Mobile lesson list */}

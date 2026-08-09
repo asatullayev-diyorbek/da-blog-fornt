@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react"
 import { Link, NavLink, useLocation } from "react-router-dom"
-import { Menu, X, ChevronDown, BookOpen, ArrowRight, GraduationCap, Search, FileText } from "lucide-react"
+import { Menu, X, ChevronDown, BookOpen, ArrowRight, GraduationCap, Search, FileText, ClipboardCheck, UserRound, Trophy } from "lucide-react"
 import ThemeToggle from "./ThemeToggle"
 import { useThemeStore } from "../store/theme"
 import { getCourses } from "../api/courses"
 import { getPosts } from "../api/blog"
 import { mediaUrl } from "../utils/media"
+import { useAuthStore } from "../store/auth"
 
 export default function Navbar() {
   const { theme } = useThemeStore()
   const dark = theme === "dark"
+  const user = useAuthStore((state) => state.user)
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -33,6 +35,8 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
+    // Reset transient navigation state whenever the route changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMenuOpen(false)
     setDropdownOpen(false)
     setMobileCoursesOpen(false)
@@ -46,6 +50,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const q = searchQuery.trim()
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!q) { setSearchResults({ posts: [], courses: [] }); return }
     clearTimeout(searchDebounce.current)
     setSearchLoading(true)
@@ -245,6 +250,14 @@ export default function Navbar() {
               Blog
             </NavLink>
 
+            <NavLink to="/tests" className={({ isActive }) => `inline-flex items-center gap-1.5 ${linkCls(isActive)}`}>
+              <ClipboardCheck size={14} /> Testlar
+            </NavLink>
+
+            <NavLink to="/leaderboard" className={({ isActive }) => `inline-flex items-center gap-1.5 ${linkCls(isActive)}`}>
+              <Trophy size={14} /> Reyting
+            </NavLink>
+
             <NavLink to="/about" className={({ isActive }) => linkCls(isActive)}>
               Haqida
             </NavLink>
@@ -267,6 +280,13 @@ export default function Navbar() {
             </button>
 
             <ThemeToggle dark={dark} />
+
+            <Link
+              to={user ? "/profile" : "/login"}
+              className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold ${dark ? "text-slate-300 hover:bg-white/8" : "text-slate-600 hover:bg-slate-100"}`}
+            >
+              <UserRound size={14} /> {user ? (user.first_name || user.username) : "Kirish"}
+            </Link>
 
 
             <button
@@ -419,6 +439,9 @@ export default function Navbar() {
           </div>
 
           <NavLink to="/blog" className={({ isActive }) => mobileLinkCls(isActive)}>Blog</NavLink>
+          <NavLink to="/tests" className={({ isActive }) => mobileLinkCls(isActive)}><span className="flex items-center gap-2"><ClipboardCheck size={14} /> Testlar</span></NavLink>
+          <NavLink to="/leaderboard" className={({ isActive }) => mobileLinkCls(isActive)}><span className="flex items-center gap-2"><Trophy size={14} /> Reyting</span></NavLink>
+          <NavLink to={user ? "/profile" : "/login"} className={({ isActive }) => mobileLinkCls(isActive)}><span className="flex items-center gap-2"><UserRound size={14} /> {user ? "Profil" : "Kirish"}</span></NavLink>
           <NavLink to="/about" className={({ isActive }) => mobileLinkCls(isActive)}>Haqida</NavLink>
 
         </div>

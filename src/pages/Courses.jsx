@@ -20,6 +20,23 @@ const stagger = {
   show:   { transition: { staggerChildren: 0.08 } },
 }
 
+function Chip({ dark, label, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap border ${
+        active
+          ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/25"
+          : dark
+            ? "bg-white/4 text-slate-400 border-white/8 hover:text-white hover:border-white/20"
+            : "bg-white text-slate-500 border-slate-200 hover:text-slate-900 hover:border-slate-300"
+      }`}
+    >
+      {label}
+    </button>
+  )
+}
+
 export default function Courses() {
   const { theme } = useThemeStore()
   const dark = theme === "dark"
@@ -60,6 +77,8 @@ export default function Courses() {
   }, [])
 
   useEffect(() => {
+    // This effect synchronizes the server-backed list with the selected filters.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPage(1)
     fetchCourses(activeCategory, activeLevel, activePrice, 1, false)
   }, [activeCategory, activeLevel, activePrice])
@@ -71,21 +90,6 @@ export default function Courses() {
   }
 
   const clearAll = () => { setActiveCategory(null); setActiveLevel(null); setActivePrice(null) }
-
-  const Chip = ({ label, active, onClick }) => (
-    <button
-      onClick={onClick}
-      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap border ${
-        active
-          ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/25"
-          : dark
-            ? "bg-white/4 text-slate-400 border-white/8 hover:text-white hover:border-white/20"
-            : "bg-white text-slate-500 border-slate-200 hover:text-slate-900 hover:border-slate-300"
-      }`}
-    >
-      {label}
-    </button>
-  )
 
   return (
     <>
@@ -163,9 +167,10 @@ export default function Courses() {
               <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
                 Kategoriya
               </span>
-              <Chip label="Barchasi" active={!activeCategory} onClick={() => setActiveCategory(null)} />
+              <Chip dark={dark} label="Barchasi" active={!activeCategory} onClick={() => setActiveCategory(null)} />
               {categories.map((cat) => (
                 <Chip
+                  dark={dark}
                   key={cat.id}
                   label={cat.name}
                   active={activeCategory === cat.id}
@@ -183,6 +188,7 @@ export default function Courses() {
               </span>
               {LEVELS.map((lvl) => (
                 <Chip
+                  dark={dark}
                   key={lvl}
                   label={lvl}
                   active={activeLevel === lvl}
@@ -200,6 +206,7 @@ export default function Courses() {
               </span>
               {PRICES.map((p) => (
                 <Chip
+                  dark={dark}
                   key={p}
                   label={p}
                   active={activePrice === p}

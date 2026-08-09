@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@keyframes leaderboardFireRing {
+  0%, 100% {
+    transform: rotate(0deg) scale(0.98);
+    opacity: 0.82;
+    box-shadow: 0 0 7px rgba(249, 115, 22, 0.65), 0 0 16px rgba(251, 191, 36, 0.35);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+    opacity: 1;
+    box-shadow: 0 0 11px rgba(249, 115, 22, 0.95), 0 0 24px rgba(251, 191, 36, 0.55);
+  }
+}
+
+.leaderboard-fire-ring {
+  position: absolute;
+  inset: 5px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, #f97316, #facc15, #ef4444, #f97316);
+    animation: leaderboardFireRing 3s ease-in-out infinite;
+}
+
 @layer base {
   html {
     font-family: "Inter", system-ui, sans-serif;

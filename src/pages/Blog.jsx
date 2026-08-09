@@ -54,6 +54,8 @@ export default function Blog() {
   }, [])
 
   useEffect(() => {
+    // Reset pagination before loading the newly filtered result set.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPage(1)
     fetchPosts(activeCategory, 1, search, false)
   }, [activeCategory, search])

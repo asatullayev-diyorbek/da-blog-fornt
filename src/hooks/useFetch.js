@@ -7,6 +7,8 @@ export default function useFetch(fetchFn, deps = []) {
 
   useEffect(() => {
     let cancelled = false
+    // These states mirror the lifecycle of the request started by this effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true)
     setError(null)
 

@@ -267,6 +267,7 @@ export default function CourseDetail() {
                       <Play size={12} className={`shrink-0 transition-colors ${
                         dark ? "text-slate-600 group-hover:text-blue-400" : "text-slate-400 group-hover:text-blue-500"
                       }`} />
+                      {lesson.quizzes_count > 0 && <span className="text-[10px] text-blue-500 font-semibold">Test</span>}
                     </Link>
                   ) : (
                     <div key={lesson.id} className={`flex items-center gap-3 px-5 py-3.5 cursor-not-allowed ${

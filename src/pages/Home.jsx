@@ -10,11 +10,11 @@ import {
 import { useThemeStore } from "../store/theme"
 import { getCourses } from "../api/courses"
 import { getPosts } from "../api/blog"
-import { mediaUrl } from "../utils/media"
 import PostCard from "../components/PostCard"
 import CourseCard from "../components/CourseCard"
 import Loader from "../components/Loader"
 
+/* eslint-disable no-unused-vars -- kept as a reusable visual for a future hero variant */
 // ── Laptop + floating elements illustration ───────────────────────────────────
 function LaptopIllustration({ dark }) {
   const files = ["main.py", "models.py", "views.py", "utils.py", "README.md"]
@@ -213,6 +213,8 @@ function LaptopIllustration({ dark }) {
   )
 }
 
+/* eslint-enable no-unused-vars */
+
 // ── Data constants ─────────────────────────────────────────────────────────────
 const HERO_FEATURES = [
   { icon: FileText, label: "Amaliyotga yo'naltirilgan konspektlar" },
@@ -228,13 +230,6 @@ const YO_NALISHLAR = [
   { icon: BrainCircuit,label: "AI & Machine Learning",color: "text-emerald-600",bg: "bg-emerald-50",bgDark: "bg-emerald-600/10",route: "/yo-nalishlar" },
   { icon: Database,    label: "Ma'lumotlar Bazasi",   color: "text-orange-600", bg: "bg-orange-50", bgDark: "bg-orange-600/10", route: "/yo-nalishlar" },
   { icon: Shield,      label: "Cyber Security",       color: "text-red-600",    bg: "bg-red-50",    bgDark: "bg-red-600/10",    route: "/yo-nalishlar" },
-]
-
-const STATIC_COURSES = [
-  { id: "s1", title: "Python Dasturlash",      level: "Boshlang'ich → Ilg'or", icon: Code2,        color: "text-yellow-500", bg: "bg-yellow-50", bgDark: "bg-yellow-500/10", slug: "python" },
-  { id: "s2", title: "Frontend Development",   level: "Boshlang'ich → Ilg'or", icon: Layers,       color: "text-blue-500",   bg: "bg-blue-50",   bgDark: "bg-blue-500/10",   slug: "frontend" },
-  { id: "s3", title: "Artificial Intelligence",level: "Boshlang'ich → Ilg'or", icon: BrainCircuit, color: "text-purple-500", bg: "bg-purple-50", bgDark: "bg-purple-500/10", slug: "ai" },
-  { id: "s4", title: "Backend Development",    level: "Boshlang'ich → Ilg'or", icon: Database,     color: "text-green-500",  bg: "bg-green-50",  bgDark: "bg-green-500/10",  slug: "backend" },
 ]
 
 const NIMA_UCHUN = [
