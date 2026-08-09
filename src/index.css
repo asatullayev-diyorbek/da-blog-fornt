@@ -40,6 +40,35 @@
 .leaderboard-medal-left { transform: rotate(-17deg); }
 .leaderboard-medal-right { transform: rotate(17deg); }
 .leaderboard-subtitle { margin: 10px 0 0; color: #8fa7c2; font-size: .78rem; font-weight: 600; }
+.leaderboard-layout { display: grid; grid-template-columns: 205px minmax(0, 1fr) 185px; align-items: start; gap: 16px; max-width: 1180px; margin: 0 auto; }
+.leaderboard-center { min-width: 0; }
+.leaderboard-sidebar { border: 1px solid rgba(133,173,215,.12); border-radius: 14px; background: rgba(8,22,43,.72); box-shadow: 0 12px 30px rgba(0,10,25,.2); }
+.leaderboard-profile-sidebar { padding: 20px 15px; text-align: center; }
+.leaderboard-profile-avatar { display: flex; align-items: center; justify-content: center; width: 58px; height: 58px; margin: 0 auto 10px; overflow: hidden; border: 2px solid rgba(126,182,235,.32); border-radius: 50%; color: #9dc8ed; background: rgba(37,99,168,.25); }
+.leaderboard-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.leaderboard-sidebar h2 { margin: 0; color: #e6f1ff; font-size: .85rem; font-weight: 850; }
+.leaderboard-side-label { margin: 0 0 7px; color: #7795b6; font-size: .58rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.leaderboard-side-username { margin: 3px 0 15px; overflow: hidden; color: #89a7c5; font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
+.leaderboard-profile-rank { display: flex; align-items: center; justify-content: space-between; margin: 0 -3px 14px; padding: 9px 10px; border-radius: 9px; background: rgba(38,91,148,.28); color: #9ab6d2; font-size: .63rem; text-align: left; }
+.leaderboard-profile-rank strong { color: #d8ebff; font-size: .9rem; }
+.leaderboard-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 15px; }
+.leaderboard-stat-grid div { padding: 7px 2px; border-radius: 8px; background: rgba(2,15,33,.32); }
+.leaderboard-stat-grid strong, .leaderboard-stat-grid span { display: block; }
+.leaderboard-stat-grid strong { color: #e5f2ff; font-size: .82rem; }
+.leaderboard-stat-grid span { margin-top: 2px; color: #7898b8; font-size: .49rem; font-weight: 800; }
+.leaderboard-progress-label { display: flex; justify-content: space-between; margin-bottom: 5px; color: #7f9bb8; font-size: .55rem; }
+.leaderboard-progress { height: 5px; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.08); }
+.leaderboard-progress span { display: block; height: 100%; border-radius: inherit; background: #4c86bd; }
+.leaderboard-streak { display: flex; align-items: center; justify-content: center; gap: 4px; margin: 14px 0 0; color: #b99857; font-size: .56rem; line-height: 1.4; }
+.leaderboard-side-icon { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; margin: 0 auto 12px; border-radius: 10px; color: #9fc9ee; background: rgba(52,105,161,.28); }
+.leaderboard-filter-sidebar { padding: 18px 13px; }
+.leaderboard-filter-sidebar h2 { margin-bottom: 15px; text-align: center; }
+.leaderboard-filter-options { display: grid; gap: 5px; }
+.leaderboard-filter-options button { display: flex; align-items: center; justify-content: space-between; padding: 9px 9px; border: 1px solid transparent; border-radius: 8px; color: #91abc5; background: transparent; font-size: .68rem; font-weight: 750; text-align: left; cursor: pointer; }
+.leaderboard-filter-options button.active { border-color: rgba(133,187,233,.18); color: #e3f1ff; background: rgba(52,105,161,.35); }
+.leaderboard-filter-options button span { color: #9dc9ee; }
+.leaderboard-side-muted { margin: 15px 1px 0; color: #6f89a4; font-size: .61rem; line-height: 1.45; }
+.leaderboard-side-button { display: inline-flex; margin-top: 14px; padding: 8px 15px; border-radius: 8px; color: #e5f2ff; background: #285b8e; font-size: .68rem; font-weight: 800; }
 .leaderboard-toolbar { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 auto 14px; max-width: 1020px; }
 .leaderboard-periods { display: flex; gap: 4px; padding: 4px; border: 1px solid rgba(145,181,220,.13); border-radius: 11px; background: rgba(5,19,40,.52); }
 .leaderboard-periods button, .leaderboard-filter { border: 0; border-radius: 8px; color: #9eb4ce; font-size: .7rem; font-weight: 800; }
@@ -87,6 +116,29 @@
   .leaderboard-player { gap: 8px; }
   .leaderboard-player p { font-size: .76rem; }
   .leaderboard-player span { font-size: .58rem; }
+}
+@media (max-width: 980px) {
+  .leaderboard-layout { grid-template-columns: 175px minmax(0, 1fr) 155px; gap: 10px; }
+  .leaderboard-row { margin-right: 7px; margin-left: 7px; padding: 0 11px; }
+}
+@media (max-width: 760px) {
+  .leaderboard-layout { grid-template-columns: 1fr; }
+  .leaderboard-profile-sidebar, .leaderboard-filter-sidebar { width: 100%; }
+  .leaderboard-profile-sidebar { display: grid; grid-template-columns: 50px 1fr; align-items: center; gap: 0 10px; padding: 12px; text-align: left; }
+  .leaderboard-profile-avatar { grid-row: span 3; width: 50px; height: 50px; margin: 0; }
+  .leaderboard-profile-sidebar .leaderboard-side-label, .leaderboard-profile-sidebar h2, .leaderboard-profile-sidebar .leaderboard-side-username { grid-column: 2; }
+  .leaderboard-profile-sidebar .leaderboard-side-label { margin: 0; }
+  .leaderboard-profile-sidebar h2 { font-size: .8rem; }
+  .leaderboard-profile-sidebar .leaderboard-side-username { margin: 0; }
+  .leaderboard-profile-rank, .leaderboard-stat-grid, .leaderboard-progress-label, .leaderboard-progress, .leaderboard-streak { grid-column: 1 / -1; }
+  .leaderboard-profile-rank { margin: 10px 0 8px; }
+  .leaderboard-stat-grid { margin-bottom: 8px; }
+  .leaderboard-filter-sidebar { display: grid; grid-template-columns: 38px 1fr; gap: 0 10px; padding: 12px; }
+  .leaderboard-filter-sidebar .leaderboard-side-icon { grid-row: span 2; margin: 0; }
+  .leaderboard-filter-sidebar .leaderboard-side-label, .leaderboard-filter-sidebar h2 { text-align: left; }
+  .leaderboard-filter-sidebar h2 { margin: 0; }
+  .leaderboard-filter-options, .leaderboard-filter-sidebar .leaderboard-side-muted { grid-column: 1 / -1; }
+  .leaderboard-filter-options { grid-template-columns: repeat(3, 1fr); margin-top: 10px; }
 }
 
 @keyframes arenaPulse {
