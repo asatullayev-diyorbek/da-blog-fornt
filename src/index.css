@@ -61,12 +61,21 @@
 .leaderboard-progress span { display: block; height: 100%; border-radius: inherit; background: #4c86bd; }
 .leaderboard-streak { display: flex; align-items: center; justify-content: center; gap: 4px; margin: 14px 0 0; color: #b99857; font-size: .56rem; line-height: 1.4; }
 .leaderboard-side-icon { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; margin: 0 auto 12px; border-radius: 10px; color: #9fc9ee; background: rgba(52,105,161,.28); }
-.leaderboard-filter-sidebar { padding: 18px 13px; }
-.leaderboard-filter-sidebar h2 { margin-bottom: 15px; text-align: center; }
+.leaderboard-filter-sidebar { padding: 15px 12px 12px; }
+.leaderboard-filter-heading { display: flex; align-items: center; gap: 9px; margin-bottom: 13px; padding: 2px 2px 12px; border-bottom: 1px solid rgba(133,173,215,.1); }
+.leaderboard-filter-heading .leaderboard-side-icon { flex-shrink: 0; margin: 0; }
+.leaderboard-filter-heading .leaderboard-side-label { margin-bottom: 2px; }
+.leaderboard-filter-heading h2 { margin: 0; font-size: .76rem; text-align: left; }
 .leaderboard-filter-options { display: grid; gap: 5px; }
-.leaderboard-filter-options button { display: flex; align-items: center; justify-content: space-between; padding: 9px 9px; border: 1px solid transparent; border-radius: 8px; color: #91abc5; background: transparent; font-size: .68rem; font-weight: 750; text-align: left; cursor: pointer; }
-.leaderboard-filter-options button.active { border-color: rgba(133,187,233,.18); color: #e3f1ff; background: rgba(52,105,161,.35); }
-.leaderboard-filter-options button span { color: #9dc9ee; }
+.leaderboard-filter-options button { display: flex; align-items: center; justify-content: space-between; min-height: 45px; padding: 7px 9px; border: 1px solid transparent; border-radius: 9px; color: #91abc5; background: transparent; text-align: left; cursor: pointer; }
+.leaderboard-filter-options button:hover { border-color: rgba(133,187,233,.12); background: rgba(52,105,161,.13); }
+.leaderboard-filter-options button.active { border-color: rgba(133,187,233,.24); color: #e3f1ff; background: linear-gradient(105deg, rgba(52,105,161,.5), rgba(36,74,119,.34)); box-shadow: inset 3px 0 #6da8db; }
+.leaderboard-filter-copy { display: grid; gap: 2px; }
+.leaderboard-filter-copy strong { font-size: .69rem; font-weight: 800; }
+.leaderboard-filter-copy small { color: #6f8ba8; font-size: .53rem; }
+.leaderboard-filter-options button.active small { color: #9ec0dd; }
+.leaderboard-filter-check { display: flex; align-items: center; justify-content: center; width: 17px; height: 17px; border: 1px solid rgba(139,186,225,.2); border-radius: 50%; color: #dceeff; font-size: .65rem; }
+.leaderboard-filter-options button.active .leaderboard-filter-check { border-color: #75b0df; background: #3e79ad; }
 .leaderboard-side-muted { margin: 15px 1px 0; color: #6f89a4; font-size: .61rem; line-height: 1.45; }
 .leaderboard-side-button { display: inline-flex; margin-top: 14px; padding: 8px 15px; border-radius: 8px; color: #e5f2ff; background: #285b8e; font-size: .68rem; font-weight: 800; }
 .leaderboard-toolbar { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 auto 14px; max-width: 1020px; }
@@ -133,12 +142,11 @@
   .leaderboard-profile-rank, .leaderboard-stat-grid, .leaderboard-progress-label, .leaderboard-progress, .leaderboard-streak { grid-column: 1 / -1; }
   .leaderboard-profile-rank { margin: 10px 0 8px; }
   .leaderboard-stat-grid { margin-bottom: 8px; }
-  .leaderboard-filter-sidebar { display: grid; grid-template-columns: 38px 1fr; gap: 0 10px; padding: 12px; }
-  .leaderboard-filter-sidebar .leaderboard-side-icon { grid-row: span 2; margin: 0; }
-  .leaderboard-filter-sidebar .leaderboard-side-label, .leaderboard-filter-sidebar h2 { text-align: left; }
-  .leaderboard-filter-sidebar h2 { margin: 0; }
-  .leaderboard-filter-options, .leaderboard-filter-sidebar .leaderboard-side-muted { grid-column: 1 / -1; }
-  .leaderboard-filter-options { grid-template-columns: repeat(3, 1fr); margin-top: 10px; }
+  .leaderboard-filter-sidebar { display: block; padding: 12px; }
+  .leaderboard-filter-heading { margin-bottom: 10px; }
+  .leaderboard-filter-options { grid-template-columns: repeat(3, 1fr); margin-top: 0; }
+  .leaderboard-filter-options button { min-height: 51px; }
+  .leaderboard-filter-copy small, .leaderboard-filter-check { display: none; }
 }
 
 @keyframes arenaPulse {
