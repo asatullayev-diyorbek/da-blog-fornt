@@ -113,19 +113,19 @@ Name one of the variables so that it starts with _ and leave a comment about it.
         dark ? "text-slate-400 bg-blue-600/8" : "text-slate-600 bg-blue-50"
       }`}>{children}</blockquote>
     ),
-    h1: ({ children }) => (
-      <h1 className={`text-2xl font-bold mt-8 mb-4 ${dark ? "text-white" : "text-slate-900"}`}>{children}</h1>
+    h1: ({ node, children, ...props }) => (
+      <h1 {...props} className={`text-2xl font-bold mt-8 mb-4 ${dark ? "text-white" : "text-slate-900"}`}>{children}</h1>
     ),
-    h2: ({ children }) => (
-      <h2 className={`text-xl font-bold mt-6 mb-3 pb-2 border-b ${
+    h2: ({ node, children, ...props }) => (
+      <h2 {...props} className={`text-xl font-bold mt-6 mb-3 pb-2 border-b ${
         dark ? "text-white border-white/10" : "text-slate-900 border-slate-200"
       }`}>{children}</h2>
     ),
-    h3: ({ children }) => (
-      <h3 className={`text-lg font-semibold mt-5 mb-2 ${dark ? "text-white" : "text-slate-900"}`}>{children}</h3>
+    h3: ({ node, children, ...props }) => (
+      <h3 {...props} className={`text-lg font-semibold mt-5 mb-2 ${dark ? "text-white" : "text-slate-900"}`}>{children}</h3>
     ),
-    p: ({ children }) => (
-      <p className={`leading-relaxed my-3 ${dark ? "text-slate-300" : "text-slate-700"}`}>{children}</p>
+    p: ({ node, children, ...props }) => (
+      <p {...props} className={`leading-relaxed my-3 ${dark ? "text-slate-300" : "text-slate-700"}`}>{children}</p>
     ),
     a: ({ href, children }) => (
       <a href={href} className="text-blue-500 hover:underline" target="_blank" rel="noreferrer">{children}</a>
