@@ -96,11 +96,15 @@ Name one of the variables so that it starts with _ and leave a comment about it.
   const canAccess          = !locked && (lesson?.is_free || isCourseAccessible)
 
   const mdComponents = {
-    code({ inline, className, children }) {
-      if (inline) return (
+    code({ node, className, children }) {
+      const codeText = String(children)
+      const isInline = !className && !codeText.includes("\n") && (
+        !node?.position || node.position.start.line === node.position.end.line
+      )
+      if (isInline) return (
         <code className={`px-1.5 py-0.5 rounded text-sm font-mono ${
           dark ? "bg-white/10 text-blue-400" : "bg-slate-100 text-blue-700"
-        }`}>{children}</code>
+        }`}>{codeText}</code>
       )
       return <CodeBlock className={className}>{children}</CodeBlock>
     },
