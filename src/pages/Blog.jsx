@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import { Helmet } from "react-helmet-async"
-import { FileText, X, Search } from "lucide-react"
+import { ChevronDown, FileText, SlidersHorizontal, X, Search } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { getPosts, getCategories } from "../api/blog"
 import PostCard from "../components/PostCard"
@@ -81,107 +81,34 @@ export default function Blog() {
     <>
       <Helmet><title>Blog — ChaqimchiAI Academy</title></Helmet>
 
-      {/* ── Hero ── */}
-      <section className={`relative overflow-hidden border-b ${
-        dark
-          ? "bg-[#080d16] border-white/[0.07]"
-          : "bg-white border-slate-200"
-      }`}>
-
-        {/* dot grid */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="blog-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-              <circle cx="1.5" cy="1.5" r="1.5" fill={dark ? "rgba(148,163,184,0.08)" : "rgba(148,163,184,0.25)"} />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#blog-dots)" />
-        </svg>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-
-            {/* Left: badge + title */}
-            <div>
-              <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold mb-4 ${
-                dark ? "bg-blue-600/10 border-blue-500/25 text-blue-400" : "bg-blue-50 border-blue-200 text-blue-600"
-              }`}>
-                <FileText size={11} />
-                Maqolalar
-              </div>
-              <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
-                dark ? "text-white" : "text-slate-900"
-              }`}>
-                Bilim va{" "}
-                <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
-                  tajriba
-                </span>
-              </h1>
-            </div>
-
-            {/* Right: live search */}
-            <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border w-full sm:w-80 shrink-0 ${
-              dark
-                ? "bg-white/5 border-white/10 focus-within:border-blue-500/50"
-                : "bg-white border-slate-200 focus-within:border-blue-400 shadow-sm"
-            } transition-colors`}>
-              <Search size={15} className={dark ? "text-slate-500 shrink-0" : "text-slate-400 shrink-0"} />
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => handleSearchInput(e.target.value)}
-                placeholder="Maqola qidiring..."
-                className={`flex-1 bg-transparent text-sm outline-none ${
-                  dark ? "text-white placeholder:text-slate-600" : "text-slate-900 placeholder:text-slate-400"
-                }`}
-              />
-              {searchInput && (
-                <button type="button" onClick={clearSearch}>
-                  <X size={13} className={dark ? "text-slate-500 hover:text-slate-300" : "text-slate-400 hover:text-slate-600"} />
-                </button>
-              )}
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
       {/* ── Content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-        {/* Category chips */}
+        {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15 }}
-          className="flex items-center gap-2 flex-wrap mb-8"
+          className={`mb-8 flex flex-wrap items-center gap-2.5 rounded-2xl border p-3 ${dark ? "border-white/8 bg-white/3" : "border-slate-200 bg-white shadow-sm"}`}
         >
-          {[{ id: null, name: "Barchasi" }, ...categories].map((cat) => {
-            const active = activeCategory === cat.id
-            return (
-              <button
-                key={cat.id ?? "all"}
-                onClick={() => setActiveCategory(active ? null : cat.id)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap border ${
-                  active
-                    ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/25"
-                    : dark
-                      ? "bg-white/4 text-slate-400 border-white/8 hover:text-white hover:border-white/20"
-                      : "bg-white text-slate-500 border-slate-200 hover:text-slate-900 hover:border-slate-300"
-                }`}
-              >
-                {cat.name}
-              </button>
-            )
-          })}
+          <SlidersHorizontal size={16} className={`mx-1 shrink-0 ${dark ? "text-blue-400" : "text-blue-500"}`} />
+          <label className={`relative flex min-w-[190px] flex-1 items-center gap-2 rounded-xl border px-3 py-2.5 ${dark ? "border-white/8 bg-[#0e1726]" : "border-slate-200 bg-white shadow-sm"}`}>
+            <FileText size={15} className="shrink-0 text-blue-500" />
+            <select value={activeCategory ?? ""} onChange={(event) => setActiveCategory(event.target.value ? Number(event.target.value) : null)} className={`w-full appearance-none bg-transparent pr-5 text-xs font-semibold outline-none ${dark ? "text-slate-200" : "text-slate-700"}`}>
+              <option value="">Barcha kategoriyalar</option>
+              {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+            </select>
+            <ChevronDown size={14} className="pointer-events-none absolute right-3 text-slate-400" />
+          </label>
+          <label className={`flex min-w-[220px] flex-[1.5] items-center gap-2.5 rounded-xl border px-3.5 py-2.5 ${dark ? "border-white/8 bg-[#0e1726] focus-within:border-blue-500/50" : "border-slate-200 bg-white shadow-sm focus-within:border-blue-400"}`}>
+            <Search size={16} className="shrink-0 text-slate-400" />
+            <input type="text" value={searchInput} onChange={(event) => handleSearchInput(event.target.value)} placeholder="Maqola qidiring..." className={`w-full bg-transparent text-xs outline-none ${dark ? "text-white placeholder:text-slate-600" : "text-slate-800 placeholder:text-slate-400"}`} />
+            {searchInput && <button type="button" onClick={clearSearch}><X size={13} className="text-slate-400 hover:text-slate-600" /></button>}
+          </label>
           {(activeCategory || search) && (
             <button
               onClick={() => { setActiveCategory(null); setSearch(""); setSearchInput("") }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              className={`flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium transition-colors ${
                 dark ? "text-slate-500 hover:text-red-400" : "text-slate-400 hover:text-red-500"
               }`}
             >
@@ -189,7 +116,7 @@ export default function Blog() {
             </button>
           )}
 
-          <span className={`ml-auto text-sm ${dark ? "text-slate-600" : "text-slate-400"}`}>
+          <span className={`ml-auto shrink-0 text-xs ${dark ? "text-slate-600" : "text-slate-400"}`}>
             {posts.length} ta maqola
           </span>
         </motion.div>
