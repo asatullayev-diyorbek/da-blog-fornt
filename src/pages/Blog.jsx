@@ -92,33 +92,25 @@ export default function Blog() {
           className={`mb-8 flex flex-wrap items-center gap-2.5 rounded-2xl border p-3 ${dark ? "border-white/8 bg-white/3" : "border-slate-200 bg-white shadow-sm"}`}
         >
           <SlidersHorizontal size={16} className={`mx-1 shrink-0 ${dark ? "text-blue-400" : "text-blue-500"}`} />
-          <label className={`relative flex min-w-[190px] flex-1 items-center gap-2 rounded-xl border px-3 py-2.5 ${dark ? "border-white/8 bg-[#0e1726]" : "border-slate-200 bg-white shadow-sm"}`}>
-            <FileText size={15} className="shrink-0 text-blue-500" />
-            <select value={activeCategory ?? ""} onChange={(event) => setActiveCategory(event.target.value ? Number(event.target.value) : null)} className={`w-full appearance-none bg-transparent pr-5 text-xs font-semibold outline-none ${dark ? "text-slate-200" : "text-slate-700"}`}>
-              <option value="">Barcha kategoriyalar</option>
-              {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-            </select>
-            <ChevronDown size={14} className="pointer-events-none absolute right-3 text-slate-400" />
-          </label>
-          <label className={`flex min-w-[220px] flex-[1.5] items-center gap-2.5 rounded-xl border px-3.5 py-2.5 ${dark ? "border-white/8 bg-[#0e1726] focus-within:border-blue-500/50" : "border-slate-200 bg-white shadow-sm focus-within:border-blue-400"}`}>
-            <Search size={16} className="shrink-0 text-slate-400" />
-            <input type="text" value={searchInput} onChange={(event) => handleSearchInput(event.target.value)} placeholder="Maqola qidiring..." className={`w-full bg-transparent text-xs outline-none ${dark ? "text-white placeholder:text-slate-600" : "text-slate-800 placeholder:text-slate-400"}`} />
-            {searchInput && <button type="button" onClick={clearSearch}><X size={13} className="text-slate-400 hover:text-slate-600" /></button>}
-          </label>
-          {(activeCategory || search) && (
-            <button
-              onClick={() => { setActiveCategory(null); setSearch(""); setSearchInput("") }}
-              className={`flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium transition-colors ${
-                dark ? "text-slate-500 hover:text-red-400" : "text-slate-400 hover:text-red-500"
-              }`}
-            >
-              <X size={11} /> Tozalash
-            </button>
-          )}
-
-          <span className={`ml-auto shrink-0 text-xs ${dark ? "text-slate-600" : "text-slate-400"}`}>
-            {posts.length} ta maqola
-          </span>
+          <div className="flex min-w-0 flex-1 flex-wrap gap-2.5">
+            <label className={`relative flex min-w-[190px] flex-1 items-center gap-2 rounded-xl border px-3 py-2.5 ${dark ? "border-white/8 bg-[#0e1726]" : "border-slate-200 bg-white shadow-sm"}`}>
+              <FileText size={15} className="shrink-0 text-blue-500" />
+              <select value={activeCategory ?? ""} onChange={(event) => setActiveCategory(event.target.value ? Number(event.target.value) : null)} className={`w-full appearance-none bg-transparent pr-5 text-xs font-semibold outline-none ${dark ? "text-slate-200" : "text-slate-700"}`}>
+                <option value="">Barcha kategoriyalar</option>
+                {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+              </select>
+              <ChevronDown size={14} className="pointer-events-none absolute right-3 text-slate-400" />
+            </label>
+            <label className={`flex min-w-[220px] flex-[1.5] items-center gap-2.5 rounded-xl border px-3.5 py-2.5 ${dark ? "border-white/8 bg-[#0e1726] focus-within:border-blue-500/50" : "border-slate-200 bg-white shadow-sm focus-within:border-blue-400"}`}>
+              <Search size={16} className="shrink-0 text-slate-400" />
+              <input type="text" value={searchInput} onChange={(event) => handleSearchInput(event.target.value)} placeholder="Maqola qidiring..." className={`w-full bg-transparent text-xs outline-none ${dark ? "text-white placeholder:text-slate-600" : "text-slate-800 placeholder:text-slate-400"}`} />
+              {searchInput && <button type="button" onClick={clearSearch}><X size={13} className="text-slate-400 hover:text-slate-600" /></button>}
+            </label>
+          </div>
+          <div className="flex shrink-0 items-center gap-1">
+            {(activeCategory || search) && <button onClick={() => { setActiveCategory(null); setSearch(""); setSearchInput("") }} className={`flex items-center gap-1.5 rounded-xl px-2.5 py-2.5 text-xs font-medium transition-colors ${dark ? "text-slate-500 hover:text-red-400" : "text-slate-400 hover:text-red-500"}`}><X size={11} /> Tozalash</button>}
+            <span className={`px-2 text-xs ${dark ? "text-slate-600" : "text-slate-400"}`}>{posts.length} ta maqola</span>
+          </div>
         </motion.div>
 
         {/* Grid */}
