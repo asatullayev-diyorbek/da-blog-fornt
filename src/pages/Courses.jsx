@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet-async"
-import { GraduationCap, X, SlidersHorizontal } from "lucide-react"
+import { ChevronDown, GraduationCap, X, SlidersHorizontal } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { getCourses } from "../api/courses"
 import { getCategories } from "../api/blog"
@@ -20,20 +20,16 @@ const stagger = {
   show:   { transition: { staggerChildren: 0.08 } },
 }
 
-function Chip({ dark, label, active, onClick }) {
+function FilterSelect({ dark, label, value, onChange, options, allLabel }) {
   return (
-    <button
-      onClick={onClick}
-      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap border ${
-        active
-          ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/25"
-          : dark
-            ? "bg-white/4 text-slate-400 border-white/8 hover:text-white hover:border-white/20"
-            : "bg-white text-slate-500 border-slate-200 hover:text-slate-900 hover:border-slate-300"
-      }`}
-    >
-      {label}
-    </button>
+    <label className={`relative flex min-w-[155px] flex-1 items-center gap-2 rounded-xl border px-3 py-2.5 ${dark ? "border-white/8 bg-[#0e1726]" : "border-slate-200 bg-white shadow-sm"}`}>
+      <span className={`shrink-0 text-[10px] font-bold uppercase tracking-wider ${dark ? "text-slate-500" : "text-slate-400"}`}>{label}</span>
+      <select value={value ?? ""} onChange={(event) => onChange(event.target.value || null)} className={`w-full appearance-none bg-transparent pr-5 text-xs font-semibold outline-none ${dark ? "text-slate-200" : "text-slate-700"}`}>
+        <option value="">{allLabel}</option>
+        {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+      </select>
+      <ChevronDown size={14} className="pointer-events-none absolute right-3 text-slate-400" />
+    </label>
   )
 }
 
@@ -155,65 +151,15 @@ export default function Courses() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className={`flex flex-wrap gap-4 items-start p-5 rounded-2xl border mb-8 ${
+          className={`flex flex-wrap items-center gap-2.5 rounded-2xl border p-3 mb-8 ${
             dark ? "border-white/8 bg-white/3" : "border-slate-200 bg-white shadow-sm"
           }`}
         >
-          <SlidersHorizontal size={15} className={`shrink-0 mt-1.5 ${dark ? "text-slate-500" : "text-slate-400"}`} />
-
-          <div className="flex flex-wrap gap-4 flex-1">
-            {/* Category */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
-                Kategoriya
-              </span>
-              <Chip dark={dark} label="Barchasi" active={!activeCategory} onClick={() => setActiveCategory(null)} />
-              {categories.map((cat) => (
-                <Chip
-                  dark={dark}
-                  key={cat.id}
-                  label={cat.name}
-                  active={activeCategory === cat.id}
-                  onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
-                />
-              ))}
-            </div>
-
-            <div className={`w-px self-stretch ${dark ? "bg-white/8" : "bg-slate-200"}`} />
-
-            {/* Level */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
-                Daraja
-              </span>
-              {LEVELS.map((lvl) => (
-                <Chip
-                  dark={dark}
-                  key={lvl}
-                  label={lvl}
-                  active={activeLevel === lvl}
-                  onClick={() => setActiveLevel(activeLevel === lvl ? null : lvl)}
-                />
-              ))}
-            </div>
-
-            <div className={`w-px self-stretch ${dark ? "bg-white/8" : "bg-slate-200"}`} />
-
-            {/* Price */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-slate-600" : "text-slate-400"}`}>
-                Narx
-              </span>
-              {PRICES.map((p) => (
-                <Chip
-                  dark={dark}
-                  key={p}
-                  label={p}
-                  active={activePrice === p}
-                  onClick={() => setActivePrice(activePrice === p ? null : p)}
-                />
-              ))}
-            </div>
+          <SlidersHorizontal size={16} className={`mx-1 shrink-0 ${dark ? "text-blue-400" : "text-blue-500"}`} />
+          <div className="flex min-w-0 flex-1 flex-wrap gap-2.5">
+            <FilterSelect dark={dark} label="Kategoriya" value={activeCategory} onChange={(value) => setActiveCategory(value ? Number(value) : null)} allLabel="Barcha kategoriyalar" options={categories.map((cat) => ({ value: cat.id, label: cat.name }))} />
+            <FilterSelect dark={dark} label="Daraja" value={activeLevel} onChange={setActiveLevel} allLabel="Barcha darajalar" options={LEVELS.map((level) => ({ value: level, label: level }))} />
+            <FilterSelect dark={dark} label="Narx" value={activePrice} onChange={setActivePrice} allLabel="Barcha narxlar" options={PRICES.map((price) => ({ value: price, label: price }))} />
           </div>
 
           {hasFilter && (
