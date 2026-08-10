@@ -86,7 +86,7 @@ export default function Quizzes() {
       setArenaError("Arena'ga qo'shilish uchun Telegram orqali login qiling.")
       return
     }
-    if (code.length !== 8) {
+    if (code.length !== 5) {
       setArenaError("Arena code 5 xonali raqam bo'lishi kerak.")
       return
     }
