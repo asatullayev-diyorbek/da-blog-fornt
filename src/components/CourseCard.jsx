@@ -30,7 +30,7 @@ export default function CourseCard({ course }) {
       }`}
     >
       {/* Cover */}
-      <div className="relative overflow-hidden aspect-video">
+      <div className="relative h-48 w-full overflow-hidden sm:h-52">
         <img
           src={mediaUrl(course.cover)}
           alt={course.title}
