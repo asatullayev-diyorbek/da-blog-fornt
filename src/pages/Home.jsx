@@ -520,7 +520,7 @@ export default function Home() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
           >
             {(displayCourses ?? []).map((course) => (
-              <motion.div key={course.id} variants={fadeUp}>
+              <motion.div key={course.id} variants={fadeUp} className="h-full">
                 <CourseCard course={course} />
               </motion.div>
             ))}

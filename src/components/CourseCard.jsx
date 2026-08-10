@@ -23,7 +23,7 @@ export default function CourseCard({ course }) {
   return (
     <Link
       to={`/courses/${course.slug}`}
-      className={`group flex flex-col rounded-[20px] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 ${
+      className={`group flex h-full flex-col rounded-[20px] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 ${
         dark
           ? "bg-[#0e1726] shadow-lg shadow-black/40 hover:shadow-2xl hover:shadow-black/50"
           : "bg-white shadow-[0_2px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)]"
@@ -93,7 +93,7 @@ export default function CourseCard({ course }) {
       </div>
 
       {/* Body */}
-      <div className="flex flex-col flex-1 p-5 gap-2.5">
+      <div className="flex flex-1 flex-col gap-2.5 p-5">
         {/* Level */}
         <span className={`self-start text-[11px] font-semibold px-2 py-0.5 rounded-md ${
           levelCls[course.level] ?? (dark ? "bg-white/5 text-slate-400" : "bg-slate-100 text-slate-500")
@@ -101,13 +101,13 @@ export default function CourseCard({ course }) {
           {course.level}
         </span>
 
-        <h3 className={`text-[15px] font-bold leading-snug line-clamp-2 transition-colors group-hover:text-blue-500 ${
+        <h3 className={`min-h-[42px] text-[15px] font-bold leading-snug line-clamp-2 transition-colors group-hover:text-blue-500 ${
           dark ? "text-slate-100" : "text-slate-900"
         }`}>
           {course.title}
         </h3>
 
-        <p className={`text-sm leading-relaxed line-clamp-2 flex-1 ${
+        <p className={`min-h-[44px] text-sm leading-relaxed line-clamp-2 ${
           dark ? "text-slate-400" : "text-slate-500"
         }`}>
           {course.short_description}
