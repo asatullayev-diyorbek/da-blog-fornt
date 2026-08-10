@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet-async"
-import { ChevronDown, GraduationCap, X, SlidersHorizontal } from "lucide-react"
+import { ChevronDown, GraduationCap, Search, X, SlidersHorizontal } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { getCourses } from "../api/courses"
 import { getCategories } from "../api/blog"
@@ -47,10 +47,11 @@ export default function Courses() {
   const [activeCategory, setActiveCategory] = useState(null)
   const [activeLevel, setActiveLevel] = useState(null)
   const [activePrice, setActivePrice] = useState(null)
+  const [search, setSearch] = useState("")
 
-  const hasFilter = activeCategory || activeLevel || activePrice
+  const hasFilter = activeCategory || activeLevel || activePrice || search
 
-  const fetchCourses = (cat, lvl, price, pg, append = false) => {
+  const fetchCourses = (cat, lvl, price, query, pg, append = false) => {
     if (append) setLoadingMore(true)
     else setLoading(true)
 
@@ -58,6 +59,7 @@ export default function Courses() {
     if (cat)   params.category = cat
     if (lvl)   params.level    = lvl
     if (price) params.price    = price
+    if (query.trim()) params.search = query.trim()
 
     getCourses(params)
       .then((res) => {
@@ -76,75 +78,23 @@ export default function Courses() {
     // This effect synchronizes the server-backed list with the selected filters.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPage(1)
-    fetchCourses(activeCategory, activeLevel, activePrice, 1, false)
-  }, [activeCategory, activeLevel, activePrice])
+    fetchCourses(activeCategory, activeLevel, activePrice, search, 1, false)
+  }, [activeCategory, activeLevel, activePrice, search])
 
   const loadMore = () => {
     const next = page + 1
     setPage(next)
-    fetchCourses(activeCategory, activeLevel, activePrice, next, true)
+    fetchCourses(activeCategory, activeLevel, activePrice, search, next, true)
   }
 
-  const clearAll = () => { setActiveCategory(null); setActiveLevel(null); setActivePrice(null) }
+  const clearAll = () => { setActiveCategory(null); setActiveLevel(null); setActivePrice(null); setSearch("") }
 
   return (
     <>
       <Helmet><title>Kurslar — ChaqimchiAI Academy</title></Helmet>
 
-      {/* ── Hero ── */}
-      <section className={`relative overflow-hidden border-b ${
-        dark ? "bg-[#080d16] border-white/[0.07]" : "bg-white border-slate-200"
-      }`}>
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="courses-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-              <circle cx="1.5" cy="1.5" r="1.5" fill={dark ? "rgba(148,163,184,0.08)" : "rgba(148,163,184,0.25)"} />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#courses-dots)" />
-        </svg>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-
-            {/* Left */}
-            <div>
-              <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold mb-4 ${
-                dark ? "bg-blue-600/10 border-blue-500/25 text-blue-400" : "bg-blue-50 border-blue-200 text-blue-600"
-              }`}>
-                <GraduationCap size={11} />
-                Kurslar
-              </div>
-              <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
-                dark ? "text-white" : "text-slate-900"
-              }`}>
-                Barcha{" "}
-                <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
-                  kurslar
-                </span>
-              </h1>
-            </div>
-
-            {/* Right: count */}
-            <div className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border ${
-              dark ? "border-white/8 bg-white/3" : "border-slate-200 bg-white shadow-sm"
-            }`}>
-              <GraduationCap size={15} className="text-blue-600" />
-              <span className={`text-sm font-semibold ${dark ? "text-slate-300" : "text-slate-700"}`}>
-                {courses.length} ta kurs
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
       {/* ── Filters + Grid ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
         {/* Filters */}
         <motion.div
@@ -156,6 +106,10 @@ export default function Courses() {
           }`}
         >
           <SlidersHorizontal size={16} className={`mx-1 shrink-0 ${dark ? "text-blue-400" : "text-blue-500"}`} />
+          <label className={`relative flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 sm:w-56 ${dark ? "border-white/8 bg-[#0e1726]" : "border-slate-200 bg-white shadow-sm"}`}>
+            <Search size={16} className="shrink-0 text-slate-400" />
+            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Kurs qidiring..." className={`w-full bg-transparent text-xs outline-none ${dark ? "text-white placeholder:text-slate-600" : "text-slate-700 placeholder:text-slate-400"}`} />
+          </label>
           <div className="flex min-w-0 flex-1 flex-wrap gap-2.5">
             <FilterSelect dark={dark} label="Kategoriya" value={activeCategory} onChange={(value) => setActiveCategory(value ? Number(value) : null)} allLabel="Barcha kategoriyalar" options={categories.map((cat) => ({ value: cat.id, label: cat.name }))} />
             <FilterSelect dark={dark} label="Daraja" value={activeLevel} onChange={setActiveLevel} allLabel="Barcha darajalar" options={LEVELS.map((level) => ({ value: level, label: level }))} />
