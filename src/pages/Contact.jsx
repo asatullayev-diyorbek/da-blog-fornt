@@ -35,7 +35,7 @@ export default function Contact() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
-      <Helmet><title>Aloqa — DA Blog</title></Helmet>
+      <Helmet><title>Aloqa — ChaqimchiAI Academy</title></Helmet>
       {/* Header */}
       <div className="text-center mb-14">
         <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium mb-6 ${

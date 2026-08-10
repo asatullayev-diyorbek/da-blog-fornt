@@ -9,7 +9,7 @@ export default function NotFound() {
 
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
-      <Helmet><title>404 — DA Blog</title></Helmet>
+      <Helmet><title>404 — ChaqimchiAI Academy</title></Helmet>
 
       <p className="text-8xl font-extrabold text-[#00E5FF] leading-none mb-4">404</p>
 

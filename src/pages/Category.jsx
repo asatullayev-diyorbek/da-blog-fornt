@@ -42,7 +42,7 @@ export default function Category() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <Helmet><title>{category?.name} — DA Blog</title></Helmet>
+      <Helmet><title>{category?.name} — ChaqimchiAI Academy</title></Helmet>
       <Link
         to="/"
         className={`inline-flex items-center gap-2 text-sm mb-8 transition-colors ${
